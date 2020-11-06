@@ -1,6 +1,6 @@
 # PHP Property Reader 
 
-[![Build Status](https://github.com/ScrumWorks/property-reader/workflows/build/badge.svg)](https://github.com/ScrumWorks/property-reader)
+[![Build Status](https://github.com/ScrumWorks/property-reader/workflows/build/badge.svg?branch=master)](https://github.com/ScrumWorks/property-reader)
 
 ## Installation
 ```
@@ -11,7 +11,7 @@ composer require amateri/property-reader
 You can run the tests with:
 
 ```
-vendor/bin/phpunit
+composer run-script test
 ```
 
 ## Contribution Guide
