@@ -29,9 +29,13 @@ final class ScalarVariableType extends AbstractVariableType
 
     protected function validate(): void
     {
-        parent::validate();
         if (!in_array($this->type, [self::TYPE_INTEGER, self::TYPE_FLOAT, self::TYPE_BOOLEAN, self::TYPE_STRING])) {
-            throw new \Exception("Invalid scalar type");
+            throw new \Exception("Unknown '{$this->type}' scalar type given");
         }
+    }
+
+    public function __toString(): string
+    {
+        return 'SCALAR[' . $this->type . ']';
     }
 }

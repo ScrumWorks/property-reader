@@ -31,11 +31,25 @@ final class UnionVariableType extends AbstractVariableType
 
     protected function validate(): void
     {
-        parent::validate();
+        if (count($this->types) < 2) {
+            throw new \Exception(sprintf(
+                'Union must have minimal two types, %d given',
+                count($this->types)
+            ));
+        }
         foreach ($this->types as $type) {
             if (!($type instanceof VariableTypeInterface)) {
-                throw new \Exception('All types must implements VariableTypeInterface');
+                throw new \Exception(sprintf(
+                    "Given type '%s' doesn't implements %s interface",
+                    is_object($type) ? get_class($type) : gettype($type),
+                    VariableTypeInterface::class
+                ));
             }
         }
+    }
+
+    public function __toString(): string
+    {
+        return 'UNION';
     }
 }

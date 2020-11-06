@@ -32,18 +32,18 @@ final class PropertyWriter
             if ($phpCompatible) {
                 return 'array';
             }
-            if (!($variableType->keyType instanceof MixedVariableType)) {
+            if ($variableType->keyType === null) {
+                if ($variableType->itemType instanceof MixedVariableType) {
+                    return ($variableType->nullable ? '?' : '') . 'array';
+                }
+                return ($variableType->nullable ? '?' : '') . $this->variableTypeToString($variableType->itemType) . '[]';
+            } else {
                 return sprintf(
                     '%sarray<%s, %s>',
                     $variableType->nullable ? '?' : '',
                     $this->variableTypeToString($variableType->keyType),
                     $this->variableTypeToString($variableType->itemType)
                 );
-            } else {
-                if ($variableType->itemType instanceof MixedVariableType) {
-                    return ($variableType->nullable ? '?' : '') . 'array';
-                }
-                return ($variableType->nullable ? '?' : '') . $this->variableTypeToString($variableType->itemType) . '[]';
             }
         } elseif ($variableType instanceof ClassVariableType) {
             return ($variableType->nullable ? '?' : '') . $variableType->class;

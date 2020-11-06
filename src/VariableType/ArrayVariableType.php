@@ -12,9 +12,9 @@ namespace Amateri\PropertyReader\VariableType;
 final class ArrayVariableType extends AbstractVariableType
 {
     protected VariableTypeInterface $itemType;
-    protected VariableTypeInterface $keyType;
+    protected ?VariableTypeInterface $keyType;
 
-    public function __construct(VariableTypeInterface $itemType, VariableTypeInterface $keyType, bool $nullable)
+    public function __construct(VariableTypeInterface $itemType, ?VariableTypeInterface $keyType, bool $nullable)
     {
         $this->itemType = $itemType;
         $this->keyType = $keyType;
@@ -26,18 +26,39 @@ final class ArrayVariableType extends AbstractVariableType
         return $this->itemType;
     }
 
-    protected function getKeyType(): VariableTypeInterface
+    protected function getKeyType(): ?VariableTypeInterface
     {
         return $this->keyType;
     }
 
     protected function validate(): void
     {
-        parent::validate();
-        if ($this->keyType instanceof MixedVariableType) return;
-        if ($this->keyType instanceof ScalarVariableType) {
-            if (in_array($this->keyType->type, [ScalarVariableType::TYPE_STRING, ScalarVariableType::TYPE_INTEGER])) return;
+        $keysToCheck = [];
+        if ($this->keyType instanceof UnionVariableType) {
+            if ($this->keyType->nullable) {
+                throw new \Exception("Key can't be nullable");
+            }
+            $keysToCheck += $this->keyType->types;
+        } else {
+            $keysToCheck[] = $this->keyType;
         }
-        throw new \Exception("Key type must be mixed, string or integer");
+
+        foreach ($keysToCheck as $key) {
+            if ($key === null) continue;
+            if (!($key instanceof ScalarVariableType)) {
+                throw new \Exception("Keys can be only scalar types, '{$key}' given");
+            }
+            if (!in_array($key->type, [ScalarVariableType::TYPE_STRING, ScalarVariableType::TYPE_INTEGER])) {
+                throw new \Exception("Key type can be only string or integer, '{$key->type}' given");
+            }
+            if ($key->nullable) {
+                throw new \Exception("Key can't be nullable");
+            }
+        }
+    }
+
+    public function __toString(): string
+    {
+        return 'ARRAY';
     }
 }

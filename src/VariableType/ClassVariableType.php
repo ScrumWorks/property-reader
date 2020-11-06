@@ -24,9 +24,13 @@ final class ClassVariableType extends AbstractVariableType
 
     protected function validate(): void
     {
-        parent::validate();
         if (!class_exists($this->class)) {
-            throw new \Exception("Unknown class");
+            throw new \Exception("Unknown class '{$this->class}' given");
         }
+    }
+
+    public function __toString(): string
+    {
+        return 'CLASS[' . $this->class . ']';
     }
 }

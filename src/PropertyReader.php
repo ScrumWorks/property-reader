@@ -97,13 +97,13 @@ final class PropertyReader implements PropertyReaderInterface
     private function tryIsArray(string $type, bool $nullable, \ReflectionProperty $property): ?VariableTypeInterface
     {
         if ($type === 'array') {
-            return new ArrayVariableType(new MixedVariableType(), new MixedVariableType(), $nullable);
+            return new ArrayVariableType(new MixedVariableType(), null, $nullable);
         }
         if (substr($type, -2) === '[]') {
             $itemType = $this->parseType(substr($type, 0, -2), $property);
             return new ArrayVariableType(
                 $itemType,
-                new MixedVariableType(),
+                null,
                 $nullable
             );
         }
