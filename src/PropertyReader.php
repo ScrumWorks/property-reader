@@ -35,7 +35,7 @@ final class PropertyReader implements PropertyReaderInterface
         return $this->parseType($type, $property);
     }
 
-    private function parseType(string $type, \ReflectionProperty $property): ?VariableTypeInterface
+    private function parseType(string $type, \ReflectionProperty $property): VariableTypeInterface
     {
         $nullable = false;
 

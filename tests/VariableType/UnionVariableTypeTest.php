@@ -21,6 +21,7 @@ class UnionVariableTypeTest extends TestCase
     {
         $this->expectException(\Exception::class);
         $this->expectErrorMessage("Given type 'integer' doesn't implements Amateri\PropertyReader\VariableType\VariableTypeInterface");
+        // @phpstan-ignore-next-line
         new UnionVariableType([1, new MixedVariableType()], false);
     }
 }

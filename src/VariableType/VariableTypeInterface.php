@@ -6,4 +6,5 @@ namespace Amateri\PropertyReader\VariableType;
 
 interface VariableTypeInterface
 {
+    public function __toString();
 }
