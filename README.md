@@ -1,4 +1,6 @@
-# PHP Property Reader
+# PHP Property Reader 
+
+[![Build Status](https://github.com/ScrumWorks/property-reader/workflows/build/badge.svg)](https://github.com/ScrumWorks/property-reader)
 
 ## Installation
 ```
