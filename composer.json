@@ -1,0 +1,10 @@
+{
+    "name": "amateri/property-reader",
+    "authors": [
+        {
+            "name": "Tomas Lang",
+            "email": "tomas.lang@gmail.com"
+        }
+    ],
+    "require": {}
+}
