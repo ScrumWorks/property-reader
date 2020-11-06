@@ -39,6 +39,10 @@ final class PropertyReader implements PropertyReaderInterface
     {
         $nullable = false;
 
+        if (strpos($type, '(') !== false || strpos($type, ')') !== false) {
+            throw new \Exception('Braces are not support in type');
+        }
+
         $type = \preg_replace('/^\?/', 'null|', $type);
         $types = explode('|', $type);
         if (\array_search('null', $types, true) !== false) {

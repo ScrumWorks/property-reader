@@ -1,6 +1,6 @@
 {
     "name": "amateri/property-reader",
-    "description": "Property reader that can work with typed properties and phpdoc",
+    "description": "Property reader which can work with typed properties and phpdoc",
     "type": "library",
     "keywords": ["property"],
     "authors": [
