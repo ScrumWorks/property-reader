@@ -24,12 +24,12 @@ final class UnionVariableType extends AbstractVariableType
     /**
      * @return VariableTypeInterface[]
      */
-    public function getTypes(): array
+    protected function getTypes(): array
     {
         return $this->types;
     }
 
-    public function validate(): void
+    protected function validate(): void
     {
         parent::validate();
         foreach ($this->types as $type) {

@@ -41,7 +41,7 @@ final class PropertyReader implements PropertyReaderInterface
 
         $type = \preg_replace('/^\?/', 'null|', $type);
         $types = explode('|', $type);
-        if (\array_search('null', $types, true)) {
+        if (\array_search('null', $types, true) !== false) {
             $nullable = true;
             $types = array_values(array_filter($types, static fn (string $type) => $type !== 'null'));
         }
@@ -68,6 +68,7 @@ final class PropertyReader implements PropertyReaderInterface
         if ($result = $this->tryIsObject($this->expandClassName($type, $property), $nullable)) {
             return $result;
         }
+
 
         throw new \Exception(sprintf('Unknown type "%s"', $type));
     }

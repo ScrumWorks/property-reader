@@ -17,12 +17,12 @@ final class ClassVariableType extends AbstractVariableType
         parent::__construct($nullable);
     }
 
-    public function getClass(): string
+    protected function getClass(): string
     {
         return $this->class;
     }
 
-    public function validate(): void
+    protected function validate(): void
     {
         parent::validate();
         if (!class_exists($this->class)) {
