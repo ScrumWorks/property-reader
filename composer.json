@@ -1,12 +1,21 @@
 {
     "name": "amateri/property-reader",
+    "description": "Property reader that can work with typed properties and phpdoc",
+    "type": "library",
+    "keywords": ["property"],
     "authors": [
         {
             "name": "Tomas Lang",
-            "email": "tomas.lang@gmail.com"
+            "email": "tomas.lang@gmail.com",
+            "role": "Developer"
         }
     ],
     "require": {
         "nette/utils": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amateri\\PropertyReader\\": "src/"
+        }
     }
 }
