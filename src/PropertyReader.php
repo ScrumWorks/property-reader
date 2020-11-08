@@ -44,14 +44,14 @@ final class PropertyReader implements PropertyReaderInterface
         }
 
         $type = \preg_replace('/^\?/', 'null|', $type);
-        $types = explode('|', $type);
+        $types = array_map('trim', \preg_split('/\||<[^>]+>(*SKIP)(*FAIL)/', $type));
         if (\array_search('null', $types, true) !== false) {
             $nullable = true;
             $types = array_values(array_filter($types, static fn (string $type) => $type !== 'null'));
         }
 
         if (!$types) {
-            throw new \Exception('Unresolve type');
+            throw new \Exception("Unresolvable definition '$type'");
         }
 
         if (count($types) > 1)  {
@@ -63,6 +63,9 @@ final class PropertyReader implements PropertyReaderInterface
 
         $type = $types[0];
 
+        if ($result = $this->tryIsMixed($type)) {
+            return $result;
+        }
         if ($result = $this->tryIsScalar($type, $nullable)) {
             return $result;
         }
@@ -73,8 +76,15 @@ final class PropertyReader implements PropertyReaderInterface
             return $result;
         }
 
-
         throw new \Exception(sprintf('Unknown type "%s"', $type));
+    }
+
+    private function tryIsMixed(string $type): ?VariableTypeInterface
+    {
+        if ($type === 'mixed') {
+            return new MixedVariableType();
+        }
+        return null;
     }
 
     private function tryIsScalar(string $type, bool $nullable): ?VariableTypeInterface
@@ -109,7 +119,7 @@ final class PropertyReader implements PropertyReaderInterface
         }
         if ($match = Strings::match($type, '~^array<((?P<key>[^,]+)\s*,\s*)?(?P<type>[^,]+)>$~')) {
             $itemType = $this->parseType($match['type'], $property);
-            $keyType = $match['key'] ? $this->parseType($match['key'], $property) : new MixedVariableType();
+            $keyType = $match['key'] ? $this->parseType($match['key'], $property) : null;
             return new ArrayVariableType(
                 $itemType,
                 $keyType,
@@ -131,6 +141,9 @@ final class PropertyReader implements PropertyReaderInterface
 
     private function expandClassName(string $str, \ReflectionProperty $property): string
     {
+        if (class_exists($str)) {
+            return $str;
+        }
         return Reflection::expandClassName($str, Reflection::getPropertyDeclaringClass($property));
     }
 
@@ -140,9 +153,8 @@ final class PropertyReader implements PropertyReaderInterface
             throw new \Nette\InvalidStateException('You have to enable phpDoc comments in opcode cache.');
         }
         $re = '#[\s*]@' . preg_quote($name, '#') . '(?=\s|$)(?:[ \t]+([^@\s].*))?#';
-
         if ($ref->getDocComment() && preg_match($re, trim($ref->getDocComment(), '/*'), $m)) {
-            return $m[1] ?? '';
+            return $m[1] ? trim($m[1]) : '';
         }
         return null;
     }

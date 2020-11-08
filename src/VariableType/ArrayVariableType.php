@@ -46,7 +46,7 @@ final class ArrayVariableType extends AbstractVariableType
         foreach ($keysToCheck as $key) {
             if ($key === null) continue;
             if (!($key instanceof ScalarVariableType)) {
-                throw new \Exception("Keys can be only scalar types, '{$key}' given");
+                throw new \Exception("Keys can be only scalar types, '{$key->typeName}' given");
             }
             if (!in_array($key->type, [ScalarVariableType::TYPE_STRING, ScalarVariableType::TYPE_INTEGER])) {
                 throw new \Exception("Key type can be only string or integer, '{$key->type}' given");

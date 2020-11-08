@@ -31,7 +31,7 @@ abstract class AbstractVariableType implements VariableTypeInterface/*, Stringab
 
     abstract public function __toString(): string;
 
-    public function getTypeName(): string
+    protected function getTypeName(): string
     {
         return $this->__toString();
     }
