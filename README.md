@@ -4,7 +4,7 @@
 
 ## Installation
 ```
-composer require amateri/property-reader
+composer require scrumworks/property-reader
 ```
 
 ## Testing
