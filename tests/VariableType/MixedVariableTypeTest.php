@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace Amateri\PropertyReader\Tests\VariableType;
+namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
-use Amateri\PropertyReader\VariableType\MixedVariableType;
+use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
 use PHPUnit\Framework\TestCase;
 
 class MixedVariableTypeTest extends TestCase

@@ -2,14 +2,14 @@
 
 declare(strict_types = 1);
 
-namespace Amateri\PropertyReader\Tests;
+namespace ScrumWorks\PropertyReader\Tests;
 
-use Amateri\PropertyReader\VariableType\ArrayVariableType;
-use Amateri\PropertyReader\VariableType\ClassVariableType;
-use Amateri\PropertyReader\VariableType\MixedVariableType;
-use Amateri\PropertyReader\VariableType\UnionVariableType;
-use Amateri\PropertyReader\VariableType\VariableTypeInterface;
-use Amateri\PropertyReader\VariableTypeUnifyService;
+use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
+use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
+use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
+use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
+use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
+use ScrumWorks\PropertyReader\VariableTypeUnifyService;
 use PHPUnit\Framework\TestCase;
 
 class VariableTypeUnifyServiceTest extends TestCase

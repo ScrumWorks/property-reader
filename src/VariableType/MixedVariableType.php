@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Amateri\PropertyReader\VariableType;
+namespace ScrumWorks\PropertyReader\VariableType;
 
 final class MixedVariableType extends AbstractVariableType
 {

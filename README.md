@@ -1,4 +1,4 @@
-# PHP Property Reader 
+# PHP Property Reader
 
 [![Build Status](https://github.com/ScrumWorks/property-reader/workflows/build/badge.svg?branch=master)](https://github.com/ScrumWorks/property-reader)
 
@@ -8,12 +8,13 @@ composer require scrumworks/property-reader
 ```
 
 ## Example
+
 ```php
 <?php
 
-use Amateri\PropertyReader\PropertyReader;
-use Amateri\PropertyReader\PropertyWriter;
-use Amateri\PropertyReader\VariableTypeUnifyService;
+use ScrumWorks\PropertyReader\PropertyReader;
+use ScrumWorks\PropertyReader\PropertyWriter;
+use ScrumWorks\PropertyReader\VariableTypeUnifyService;
 
 class Example
 {
@@ -54,8 +55,8 @@ foreach ($reflection->getProperties() as $propertyReflection) {
     );
 }
 ```
-will results to
-```php
+will result to
+```ini
 untyped: mixed
 integer: int
 nullableString: ?string
@@ -64,10 +65,13 @@ propertyWriter: Amateri\PropertyReader\PropertyWriter
 union: ?int|int[]
 ```
 
-You can also use `ValueType` provided API like
-```
-use Amateri\PropertyReader\VariableType\ArrayVariableType;
-use Amateri\PropertyReader\VariableType\ScalarVariableType;
+### `VariableType` API
+
+```php
+use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
+use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
+
+// load object...
 
 /** @var ArrayVariableType $hashmapType */
 $hashmapType = $propertyReader->readUnifiedVariableType($reflection->getProperty('hashmap'));

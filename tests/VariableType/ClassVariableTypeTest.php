@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace Amateri\PropertyReader\Tests\VariableType;
+namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
-use Amateri\PropertyReader\VariableType\ClassVariableType;
+use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
 use PHPUnit\Framework\TestCase;
 
 class ClassVariableTypeTest extends TestCase

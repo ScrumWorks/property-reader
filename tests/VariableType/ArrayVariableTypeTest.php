@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 
-namespace Amateri\PropertyReader\Tests\VariableType;
+namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
-use Amateri\PropertyReader\VariableType\ArrayVariableType;
-use Amateri\PropertyReader\VariableType\MixedVariableType;
-use Amateri\PropertyReader\VariableType\ScalarVariableType;
-use Amateri\PropertyReader\VariableType\UnionVariableType;
+use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
+use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
+use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
+use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 use PHPUnit\Framework\TestCase;
 
 class ArrayVariableTypeTest extends TestCase

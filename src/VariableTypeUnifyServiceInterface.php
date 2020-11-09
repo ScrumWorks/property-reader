@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Amateri\PropertyReader;
+namespace ScrumWorks\PropertyReader;
 
-use Amateri\PropertyReader\VariableType\VariableTypeInterface;
+use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
 interface VariableTypeUnifyServiceInterface
 {

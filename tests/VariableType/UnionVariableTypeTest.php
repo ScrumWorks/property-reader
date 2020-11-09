@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Amateri\PropertyReader\Tests\VariableType;
+namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
-use Amateri\PropertyReader\VariableType\MixedVariableType;
-use Amateri\PropertyReader\VariableType\UnionVariableType;
+use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
+use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 use PHPUnit\Framework\TestCase;
 
 class UnionVariableTypeTest extends TestCase

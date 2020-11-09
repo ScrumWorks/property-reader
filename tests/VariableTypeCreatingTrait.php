@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Amateri\PropertyReader\Tests;
+namespace ScrumWorks\PropertyReader\Tests;
 
-use Amateri\PropertyReader\VariableType\MixedVariableType;
-use Amateri\PropertyReader\VariableType\ScalarVariableType;
+use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
+use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 
 trait VariableTypeCreatingTrait
 {

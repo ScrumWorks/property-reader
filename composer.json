@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Amateri\\PropertyReader\\": "src/"
+            "ScrumWorks\\PropertyReader\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Amateri\\PropertyReader\\Tests\\": "tests/"
+            "ScrumWorks\\PropertyReader\\Tests\\": "tests/"
         }
     },
     "scripts": {

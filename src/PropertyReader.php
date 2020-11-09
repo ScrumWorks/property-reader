@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Amateri\PropertyReader;
+namespace ScrumWorks\PropertyReader;
 
-use Amateri\PropertyReader\VariableType\ArrayVariableType;
-use Amateri\PropertyReader\VariableType\ClassVariableType;
-use Amateri\PropertyReader\VariableType\MixedVariableType;
-use Amateri\PropertyReader\VariableType\ScalarVariableType;
-use Amateri\PropertyReader\VariableType\UnionVariableType;
-use Amateri\PropertyReader\VariableType\VariableTypeInterface;
 use Exception;
 use Nette\InvalidStateException;
 use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
 use ReflectionNamedType;
 use ReflectionProperty;
+use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
+use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
+use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
+use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
+use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
+use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
 final class PropertyReader implements PropertyReaderInterface
 {
