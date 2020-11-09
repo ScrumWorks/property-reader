@@ -23,89 +23,6 @@ class VariableTypeUnifyServiceTest extends TestCase
         $this->variableTypeUnifyService = new VariableTypeUnifyService();
     }
 
-    public function testSame(): void
-    {
-        // `same` is reflexive
-        $this->assertTrue($this->same(null, null));
-
-        // `same` is symmetric
-        $this->assertFalse($this->same(null, $this->createInteger(true)));
-        $this->assertFalse($this->same($this->createInteger(true),null));
-
-        // nullable must have same values
-        $this->assertFalse($this->same($this->createInteger(true), $this->createInteger(false)));
-
-        // scalar values are same when have same types
-        $this->assertTrue($this->same($this->createInteger(true), $this->createInteger(true)));
-        $this->assertFalse($this->same($this->createInteger(true), $this->createString(true)));
-
-        // array must have same key and item type
-        $this->assertTrue(
-            $this->same(
-                new ArrayVariableType($this->createInteger(true), $this->createString(false), false),
-                new ArrayVariableType($this->createInteger(true), $this->createString(false), false),
-            )
-        );
-        $this->assertFalse(
-            $this->same(
-                new ArrayVariableType($this->createString(true), $this->createString(false), false),
-                new ArrayVariableType($this->createInteger(true), $this->createString(false), false),
-            )
-        );
-        $this->assertFalse(
-            $this->same(
-                new ArrayVariableType($this->createInteger(true), null, false),
-                new ArrayVariableType($this->createInteger(true), $this->createString(false), false),
-            )
-        );
-
-        // objects must have same type
-        $this->assertTrue($this->same(new ClassVariableType(ArrayVariableType::class, false), new ClassVariableType(ArrayVariableType::class, false)));
-        $this->assertFalse($this->same(new ClassVariableType(ArrayVariableType::class, false), new ClassVariableType(MixedVariableType::class, false)));
-
-        // union types must be equivalent (order doesn't matters)
-        $this->assertTrue(
-            $this->same(
-                new UnionVariableType([
-                    $this->createInteger(true),
-                    $this->createString(false),
-                    new ArrayVariableType($this->createString(false), null, false),
-                ], true),
-                new UnionVariableType([
-                    new ArrayVariableType($this->createString(false), null, false),
-                    $this->createString(false),
-                    $this->createInteger(true),
-                ], true)
-            )
-        );
-        $this->assertTrue(
-            $this->same(
-                new UnionVariableType([
-                    $this->createInteger(true),
-                    $this->createInteger(true),
-                    $this->createInteger(false),
-                ], true),
-                new UnionVariableType([
-                    $this->createInteger(false),
-                    $this->createInteger(true),
-                ], true)
-            )
-        );
-        $this->assertFalse(
-            $this->same(
-                new UnionVariableType([
-                    $this->createString(true),
-                    $this->createInteger(true),
-                    $this->createInteger(false),
-                ], true),
-                new UnionVariableType([
-                    $this->createInteger(true),
-                    $this->createInteger(false),
-                ], true)
-            )
-        );
-    }
-
     public function testUnify(): void
     {
         // `unify` is reflexive, only difference is that unify(null, null) === MixedVariableType
@@ -207,11 +124,6 @@ class VariableTypeUnifyServiceTest extends TestCase
                 $this->createInteger(false),
             ], true)
         );
-    }
-
-    private function same(?VariableTypeInterface $a, ?VariableTypeInterface $b): bool
-    {
-        return $this->variableTypeUnifyService->same($a, $b);
     }
 
     private function unify(?VariableTypeInterface $a, ?VariableTypeInterface $b): VariableTypeInterface

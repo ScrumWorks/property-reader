@@ -4,8 +4,10 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests;
 
+use ScrumWorks\PropertyReader\VariableType\AbstractVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
+use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
 trait VariableTypeCreatingTrait
 {
@@ -32,5 +34,10 @@ trait VariableTypeCreatingTrait
     private function createString(bool $nullable): ScalarVariableType
     {
         return new ScalarVariableType(ScalarVariableType::TYPE_STRING, $nullable);
+    }
+
+    private function variableTypeEquals(?VariableTypeInterface $a, ?VariableTypeInterface $b): bool
+    {
+        return AbstractVariableType::objectEquals($a, $b);
     }
 }

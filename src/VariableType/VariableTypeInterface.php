@@ -9,4 +9,6 @@ interface VariableTypeInterface
     public function isNullable(): bool;
 
     public function getTypeName(): string;
+
+    public function equals(self $object): bool;
 }
