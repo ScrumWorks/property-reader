@@ -27,6 +27,15 @@ final class ClassVariableType extends AbstractVariableType
         return $this->class;
     }
 
+    public function equals(VariableTypeInterface $object): bool
+    {
+        if (! parent::equals($object)) {
+            return false;
+        }
+        /** @var ClassVariableType $object */
+        return $this->getClass() === $object->getClass();
+    }
+
     protected function validate(): void
     {
         if (! \class_exists($this->class)) {

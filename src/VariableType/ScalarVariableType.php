@@ -35,6 +35,15 @@ final class ScalarVariableType extends AbstractVariableType
         return $this->type;
     }
 
+    public function equals(VariableTypeInterface $object): bool
+    {
+        if (! parent::equals($object)) {
+            return false;
+        }
+        /** @var ScalarVariableType $object */
+        return $this->getType() === $object->getType();
+    }
+
     protected function validate(): void
     {
         if (! \in_array($this->type, [self::TYPE_INTEGER, self::TYPE_FLOAT, self::TYPE_BOOLEAN, self::TYPE_STRING])) {

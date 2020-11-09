@@ -35,6 +35,16 @@ final class ArrayVariableType extends AbstractVariableType
         return $this->keyType;
     }
 
+    public function equals(VariableTypeInterface $object): bool
+    {
+        if (! parent::equals($object)) {
+            return false;
+        }
+        /** @var ArrayVariableType $object */
+        return self::objectEquals($this->getKeyType(), $object->getKeyType())
+            && self::objectEquals($this->getItemType(), $object->getItemType());
+    }
+
     protected function validate(): void
     {
         $keysToCheck = [];

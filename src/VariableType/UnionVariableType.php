@@ -33,6 +33,15 @@ final class UnionVariableType extends AbstractVariableType
         return $this->types;
     }
 
+    public function equals(VariableTypeInterface $object): bool
+    {
+        if (! parent::equals($object)) {
+            return false;
+        }
+        /** @var UnionVariableType $object */
+        return $this->isSubset($this, $object) && $this->isSubset($this, $object);
+    }
+
     protected function validate(): void
     {
         if (\count($this->types) < 2) {
@@ -47,5 +56,24 @@ final class UnionVariableType extends AbstractVariableType
                 ));
             }
         }
+    }
+
+    /**
+     * Is union type $a subset of $b?
+     * Actually O(n^2) in worst case :/
+     */
+    private function isSubset(self $a, self $b): bool
+    {
+        foreach ($a->getTypes() as $aType) {
+            foreach ($b->getTypes() as $bType) {
+                if ($aType->equals($bType)) {
+                    // found, we can move to next element
+                    continue 2;
+                }
+            }
+            // not found, it can't be subset
+            return false;
+        }
+        return true;
     }
 }

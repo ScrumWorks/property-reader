@@ -31,5 +31,27 @@ abstract class AbstractVariableType implements VariableTypeInterface
         return $this->__toString();
     }
 
+    public function equals(VariableTypeInterface $object): bool
+    {
+        if (static::class !== \get_class($object)) {
+            return false;
+        }
+        if ($this->isNullable() !== $object->isNullable()) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function objectEquals(?VariableTypeInterface $a, ?VariableTypeInterface $b): bool
+    {
+        if ($a === $b) {
+            return true;
+        }
+        if ($a === null || $b === null) {
+            return false;
+        }
+        return $a->equals($b);
+    }
+
     abstract protected function validate(): void;
 }
