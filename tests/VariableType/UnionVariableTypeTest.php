@@ -20,7 +20,7 @@ class UnionVariableTypeTest extends TestCase
     public function testInputTypesMustBeVariableTypeInterface(): void
     {
         $this->expectException(\Exception::class);
-        $this->expectErrorMessage("Given type 'integer' doesn't implements Amateri\PropertyReader\VariableType\VariableTypeInterface");
+        $this->expectErrorMessage("Given type 'integer' doesn't implements ScrumWorks\PropertyReader\VariableType\VariableTypeInterface");
         // @phpstan-ignore-next-line
         new UnionVariableType([1, new MixedVariableType()], false);
     }
