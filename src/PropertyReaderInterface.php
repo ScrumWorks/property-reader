@@ -9,6 +9,8 @@ use ReflectionProperty;
 
 interface PropertyReaderInterface
 {
+    public function readUnifiedVariableType(ReflectionProperty $property): ?VariableTypeInterface;
+
     public function readVariableTypeFromPropertyType(ReflectionProperty $property): ?VariableTypeInterface;
 
     public function readVariableTypeFromPhpDoc(ReflectionProperty $property): ?VariableTypeInterface;

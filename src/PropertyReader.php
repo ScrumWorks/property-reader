@@ -19,6 +19,21 @@ use ReflectionProperty;
 
 final class PropertyReader implements PropertyReaderInterface
 {
+    private VariableTypeUnifyServiceInterface $variableTypeUnifyService;
+
+    public function __construct(VariableTypeUnifyServiceInterface $variableTypeUnifyService)
+    {
+        $this->variableTypeUnifyService = $variableTypeUnifyService;
+    }
+
+    public function readUnifiedVariableType(ReflectionProperty $property): VariableTypeInterface
+    {
+        return $this->variableTypeUnifyService->unify(
+            $this->readVariableTypeFromPropertyType($property),
+            $this->readVariableTypeFromPhpDoc($property)
+        );
+    }
+
     public function readVariableTypeFromPropertyType(ReflectionProperty $property): ?VariableTypeInterface
     {
         if (($propertyType = $property->getType()) instanceof ReflectionNamedType) {
@@ -117,7 +132,7 @@ final class PropertyReader implements PropertyReaderInterface
             $itemType = $this->parseType(\substr($type, 0, -2), $property);
             return new ArrayVariableType($itemType, null, $nullable);
         }
-        if ($match = Strings::match($type, '~^array<((?P<key>[^,]+)\s*,\s*)?(?P<type>[^,]+)>$~')) {
+        if ($match = Strings::match($type, '~^array<((?P<key>[^,]+)\s*,\s*)?(?P<type>.+)>$~')) {
             $itemType = $this->parseType($match['type'], $property);
             $keyType = $match['key'] ? $this->parseType($match['key'], $property) : null;
             return new ArrayVariableType($itemType, $keyType, $nullable);

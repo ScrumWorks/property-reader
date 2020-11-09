@@ -11,6 +11,7 @@ use Amateri\PropertyReader\VariableType\MixedVariableType;
 use Amateri\PropertyReader\VariableType\ScalarVariableType;
 use Amateri\PropertyReader\VariableType\UnionVariableType;
 use Amateri\PropertyReader\VariableType\VariableTypeInterface;
+use Amateri\PropertyReader\VariableTypeUnifyServiceInterface;
 use PHPUnit\Framework\TestCase;
 
 // We must use normal class instead of anonymous class, because
@@ -25,11 +26,19 @@ class TestClass
 
 class PropertyReaderTest extends TestCase
 {
+    use VariableTypeCreatingTrait;
+
     private PropertyReader $propertyReader;
 
     public function setUp(): void
     {
-        $this->propertyReader = new PropertyReader();
+        $variableTypeUnifyServiceMock = new class implements VariableTypeUnifyServiceInterface {
+            function unify(?VariableTypeInterface $a, ?VariableTypeInterface $b): ?VariableTypeInterface
+            {
+                return null;
+            }
+        };
+        $this->propertyReader = new PropertyReader($variableTypeUnifyServiceMock);
     }
 
     public function testEmptyDefinition(): void
@@ -285,6 +294,9 @@ class PropertyReaderTest extends TestCase
             /** @var array<string, string> */
             public array $hashmap;
 
+            /** @var array<string, array<int, string>> */
+            public array $nestedHashmap;
+
             /** @var array<int|string, ?int[][]> */
             public array $complicatedArray;
         };
@@ -351,6 +363,21 @@ class PropertyReaderTest extends TestCase
         $this->assertEquals(
             new ArrayVariableType(
                 $this->createString(false),
+                $this->createString(false),
+                false
+            ),
+            $this->readFromPhpDoc($property)
+        );
+
+        // nested hashmap
+        $property = $reflection->getProperty('nestedHashmap');
+        $this->assertEquals(
+            new ArrayVariableType(
+                new ArrayVariableType(
+                    $this->createString(false),
+                    $this->createInteger(false),
+                    false
+                ),
                 $this->createString(false),
                 false
             ),
