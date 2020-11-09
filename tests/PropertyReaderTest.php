@@ -123,36 +123,36 @@ class PropertyReaderTest extends TestCase
         $property = $reflection->getProperty('notNullable');
         $this->assertEquals(
             false,
-            $this->readFromPropertyType($property)->nullable
+            $this->readFromPropertyType($property)->isNullable()
         );
         $this->assertEquals(
             false,
-            $this->readFromPhpDoc($property)->nullable
+            $this->readFromPhpDoc($property)->isNullable()
         );
 
         // ?var syntax
         $property = $reflection->getProperty('nullable');
         $this->assertEquals(
             true,
-            $this->readFromPropertyType($property)->nullable
+            $this->readFromPropertyType($property)->isNullable()
         );
         $this->assertEquals(
             true,
-            $this->readFromPhpDoc($property)->nullable
+            $this->readFromPhpDoc($property)->isNullable()
         );
 
         // var|null syntax
         $property = $reflection->getProperty('nullableSecondVariant');
         $this->assertEquals(
             true,
-            $this->readFromPhpDoc($property)->nullable
+            $this->readFromPhpDoc($property)->isNullable()
         );
 
         // multiple nullable are ignored
         $property = $reflection->getProperty('multipleNullable');
         $this->assertEquals(
             true,
-            $this->readFromPhpDoc($property)->nullable
+            $this->readFromPhpDoc($property)->isNullable()
         );
 
         // property with only nullable definition

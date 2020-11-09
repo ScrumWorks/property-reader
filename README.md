@@ -75,9 +75,9 @@ use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 
 /** @var ArrayVariableType $hashmapType */
 $hashmapType = $propertyReader->readUnifiedVariableType($reflection->getProperty('hashmap'));
-assert($hashmapType->nullable === false);
-assert($hashmapType->keyType instanceofScalarVariableType);
-assert($hashmapType->keyType->type === ScalarVariableType::TYPE_STRING)
+assert($hashmapType->isNullable() === false);
+assert($hashmapType->getKeyType() instanceof ScalarVariableType);
+assert($hashmapType->getKeyType()->getType() === ScalarVariableType::TYPE_STRING);
 ```
 
 ## Testing

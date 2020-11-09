@@ -6,10 +6,6 @@ namespace ScrumWorks\PropertyReader\VariableType;
 
 use Exception;
 
-/**
- * @property-read VariableTypeInterface $itemType
- * @property-read VariableTypeInterface $keyType
- */
 final class ArrayVariableType extends AbstractVariableType
 {
     protected VariableTypeInterface $itemType;
@@ -29,12 +25,12 @@ final class ArrayVariableType extends AbstractVariableType
         return 'ARRAY';
     }
 
-    protected function getItemType(): VariableTypeInterface
+    public function getItemType(): VariableTypeInterface
     {
         return $this->itemType;
     }
 
-    protected function getKeyType(): ?VariableTypeInterface
+    public function getKeyType(): ?VariableTypeInterface
     {
         return $this->keyType;
     }
@@ -43,10 +39,10 @@ final class ArrayVariableType extends AbstractVariableType
     {
         $keysToCheck = [];
         if ($this->keyType instanceof UnionVariableType) {
-            if ($this->keyType->nullable) {
+            if ($this->keyType->isNullable()) {
                 throw new Exception("Key can't be nullable");
             }
-            $keysToCheck += $this->keyType->types;
+            $keysToCheck += $this->keyType->getTypes();
         } else {
             $keysToCheck[] = $this->keyType;
         }
@@ -56,10 +52,10 @@ final class ArrayVariableType extends AbstractVariableType
                 continue;
             }
             if (! ($key instanceof ScalarVariableType)) {
-                throw new Exception("Keys can be only scalar types, '{$key->typeName}' given");
+                throw new Exception(\sprintf("Keys can be only scalar types, '%s' given", $key->getTypeName()));
             }
-            if (! \in_array($key->type, [ScalarVariableType::TYPE_STRING, ScalarVariableType::TYPE_INTEGER])) {
-                throw new Exception("Key type can be only string or integer, '{$key->type}' given");
+            if (! \in_array($key->getType(), [ScalarVariableType::TYPE_STRING, ScalarVariableType::TYPE_INTEGER])) {
+                throw new Exception(\sprintf("Key type can be only string or integer, '%s' given", $key->getType()));
             }
             if ($key->nullable) {
                 throw new Exception("Key can't be nullable");

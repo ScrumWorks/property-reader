@@ -28,21 +28,21 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
         if (! ($a instanceof $b)) {
             return false;
         }
-        if ($a->nullable !== $b->nullable) {
+        if ($a->isNullable() !== $b->isNullable()) {
             return false;
         }
         if ($a instanceof MixedVariableType) {
             return true;
         } elseif ($a instanceof ScalarVariableType) {
             /** @var ScalarVariableType $b */
-            return $a->type === $b->type;
+            return $a->getType() === $b->getType();
         } elseif ($a instanceof ArrayVariableType) {
             /** @var ArrayVariableType $b */
-            return $this->same($a->keyType, $b->keyType)
-                && $this->same($a->itemType, $b->itemType);
+            return $this->same($a->getKeyType(), $b->getKeyType())
+                && $this->same($a->getItemType(), $b->getItemType());
         } elseif ($a instanceof ClassVariableType) {
             /** @var ClassVariableType $b */
-            return $a->class === $b->class;
+            return $a->getClass() === $b->getClass();
         } elseif ($a instanceof UnionVariableType) {
             /** @var UnionVariableType $b */
             return $this->isSubset($a, $b) && $this->isSubset($b, $a);
@@ -65,14 +65,14 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
         /** @var VariableTypeInterface $a */
         /** @var VariableTypeInterface $b */
         if (! $a instanceof $b) {
-            throw new Exception(\sprintf("Incompatible types '%s' and '%s'", $a->typeName, $b->typeName));
+            throw new Exception(\sprintf("Incompatible types '%s' and '%s'", $a->getTypeName(), $b->getTypeName()));
         }
 
-        if ($a->nullable !== $b->nullable) {
+        if ($a->isNullable() !== $b->isNullable()) {
             throw new Exception(\sprintf(
                 "Incompatible nullable settings for '%s' and '%s'",
-                $a->typeName,
-                $b->typeName
+                $a->getTypeName(),
+                $b->getTypeName()
             ));
         }
 
@@ -102,8 +102,8 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
      */
     private function isSubset(UnionVariableType $a, UnionVariableType $b): bool
     {
-        foreach ($a->types as $aType) {
-            foreach ($b->types as $bType) {
+        foreach ($a->getTypes() as $aType) {
+            foreach ($b->getTypes() as $bType) {
                 if ($this->same($aType, $bType)) {
                     // found, we can move to next element
                     continue 2;
@@ -122,8 +122,8 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
 
     private function unifyScalar(ScalarVariableType $a, ScalarVariableType $b): VariableTypeInterface
     {
-        if ($a->type !== $b->type) {
-            throw new Exception(\sprintf("Can't merge %s and %s scalar types", $a->type, $b->type));
+        if ($a->getType() !== $b->getType()) {
+            throw new Exception(\sprintf("Can't merge %s and %s scalar types", $a->getType(), $b->getType()));
         }
 
         return clone $a;
@@ -132,28 +132,28 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
     private function unifyArray(ArrayVariableType $a, ArrayVariableType $b): VariableTypeInterface
     {
         // `array` and `B` === `B`
-        if ($a->itemType instanceof MixedVariableType && $a->keyType === null) {
+        if ($a->getItemType() instanceof MixedVariableType && $a->getKeyType() === null) {
             return clone $b;
         }
-        if ($b->itemType instanceof MixedVariableType && $b->keyType === null) {
+        if ($b->getItemType() instanceof MixedVariableType && $b->getKeyType() === null) {
             return clone $a;
         }
 
-        if (! $this->same($a->keyType, $b->keyType)) {
+        if (! $this->same($a->getKeyType(), $b->getKeyType())) {
             throw new Exception(\sprintf('Array must have key type'));
         }
 
         return new ArrayVariableType(
-            $this->unify($a->itemType, $b->itemType),
-            $a->keyType !== null ? clone $a->keyType : null,
-            $a->nullable
+            $this->unify($a->getItemType(), $b->getItemType()),
+            $a->getKeyType() !== null ? clone $a->getKeyType() : null,
+            $a->isNullable()
         );
     }
 
     private function unifyClass(ClassVariableType $a, ClassVariableType $b): VariableTypeInterface
     {
-        if ($a->class !== $b->class) {
-            throw new Exception(\sprintf("Can't merge %s and %s classes", $a->class, $b->class));
+        if ($a->getClass() !== $b->getClass()) {
+            throw new Exception(\sprintf("Can't merge %s and %s classes", $a->getClass(), $b->getClass()));
         }
 
         return clone $a;

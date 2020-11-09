@@ -6,9 +6,6 @@ namespace ScrumWorks\PropertyReader\VariableType;
 
 use Exception;
 
-/**
- * @property-read string $class FQN class name
- */
 final class ClassVariableType extends AbstractVariableType
 {
     protected string $class;
@@ -25,7 +22,7 @@ final class ClassVariableType extends AbstractVariableType
         return 'CLASS[' . $this->class . ']';
     }
 
-    protected function getClass(): string
+    public function getClass(): string
     {
         return $this->class;
     }

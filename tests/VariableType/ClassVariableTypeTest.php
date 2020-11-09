@@ -12,7 +12,7 @@ class ClassVariableTypeTest extends TestCase
     public function testValidClass(): void
     {
         $classVariableType = new ClassVariableType(ClassVariableTypeTest::class, true);
-        $this->assertEquals(ClassVariableTypeTest::class, $classVariableType->class);
+        $this->assertEquals(ClassVariableTypeTest::class, $classVariableType->getClass());
     }
 
     public function testInvalidClass(): void
