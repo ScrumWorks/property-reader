@@ -6,9 +6,6 @@ namespace ScrumWorks\PropertyReader\VariableType;
 
 use Exception;
 
-/**
- * @property-read VariableTypeInterface[] $types
- */
 final class UnionVariableType extends AbstractVariableType
 {
     protected array $types;
@@ -31,7 +28,7 @@ final class UnionVariableType extends AbstractVariableType
     /**
      * @return VariableTypeInterface[]
      */
-    protected function getTypes(): array
+    public function getTypes(): array
     {
         return $this->types;
     }

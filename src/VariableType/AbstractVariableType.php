@@ -6,10 +6,6 @@ namespace ScrumWorks\PropertyReader\VariableType;
 
 use Nette\SmartObject;
 
-/**
- * @property-read string $typeName
- * @property-read bool $nullable
- */
 /*, Stringable - after PHp8.0*/
 abstract class AbstractVariableType implements VariableTypeInterface
 {
@@ -25,15 +21,15 @@ abstract class AbstractVariableType implements VariableTypeInterface
 
     abstract public function __toString(): string;
 
-    protected function isNullable(): bool
+    public function isNullable(): bool
     {
         return $this->nullable;
     }
 
-    abstract protected function validate(): void;
-
-    protected function getTypeName(): string
+    public function getTypeName(): string
     {
         return $this->__toString();
     }
+
+    abstract protected function validate(): void;
 }

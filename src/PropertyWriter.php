@@ -21,39 +21,39 @@ final class PropertyWriter
             }
             return 'mixed';
         } elseif ($variableType instanceof ScalarVariableType) {
-            switch ($variableType->type) {
-                case ScalarVariableType::TYPE_INTEGER: return ($variableType->nullable ? '?' : '') . 'int';
-                case ScalarVariableType::TYPE_FLOAT: return ($variableType->nullable ? '?' : '') . 'float';
-                case ScalarVariableType::TYPE_BOOLEAN: return ($variableType->nullable ? '?' : '') . 'bool';
-                case ScalarVariableType::TYPE_STRING: return ($variableType->nullable ? '?' : '') . 'string';
+            switch ($variableType->getType()) {
+                case ScalarVariableType::TYPE_INTEGER: return ($variableType->isNullable() ? '?' : '') . 'int';
+                case ScalarVariableType::TYPE_FLOAT: return ($variableType->isNullable() ? '?' : '') . 'float';
+                case ScalarVariableType::TYPE_BOOLEAN: return ($variableType->isNullable() ? '?' : '') . 'bool';
+                case ScalarVariableType::TYPE_STRING: return ($variableType->isNullable() ? '?' : '') . 'string';
             }
         } elseif ($variableType instanceof ArrayVariableType) {
             if ($phpCompatible) {
                 return 'array';
             }
-            if ($variableType->keyType === null) {
-                if ($variableType->itemType instanceof MixedVariableType) {
-                    return ($variableType->nullable ? '?' : '') . 'array';
+            if ($variableType->getKeyType() === null) {
+                if ($variableType->getItemType() instanceof MixedVariableType) {
+                    return ($variableType->isNullable() ? '?' : '') . 'array';
                 }
-                return ($variableType->nullable ? '?' : '') . $this->variableTypeToString(
-                    $variableType->itemType
+                return ($variableType->isNullable() ? '?' : '') . $this->variableTypeToString(
+                    $variableType->getItemType()
                 ) . '[]';
             }
             return \sprintf(
                     '%sarray<%s, %s>',
-                    $variableType->nullable ? '?' : '',
-                    $this->variableTypeToString($variableType->keyType),
-                    $this->variableTypeToString($variableType->itemType)
+                    $variableType->isNullable() ? '?' : '',
+                    $this->variableTypeToString($variableType->getKeyType()),
+                    $this->variableTypeToString($variableType->getItemType())
                 );
         } elseif ($variableType instanceof ClassVariableType) {
-            return ($variableType->nullable ? '?' : '') . $variableType->class;
+            return ($variableType->isNullable() ? '?' : '') . $variableType->getClass();
         } elseif ($variableType instanceof UnionVariableType) {
             if ($phpCompatible) {
                 return '';
             }
-            return ($variableType->nullable ? '?' : '') . \implode('|', \array_map(
+            return ($variableType->isNullable() ? '?' : '') . \implode('|', \array_map(
                 fn (VariableTypeInterface $_) => $this->variableTypeToString($_, $phpCompatible),
-                $variableType->types
+                $variableType->getTypes()
             ));
         }
         return '';

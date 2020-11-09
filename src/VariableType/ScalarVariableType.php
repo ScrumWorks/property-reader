@@ -6,9 +6,6 @@ namespace ScrumWorks\PropertyReader\VariableType;
 
 use Exception;
 
-/**
- * @property-read string $type
- */
 final class ScalarVariableType extends AbstractVariableType
 {
     public const TYPE_INTEGER = 'INTEGER';
@@ -33,7 +30,7 @@ final class ScalarVariableType extends AbstractVariableType
         return 'SCALAR[' . $this->type . ']';
     }
 
-    protected function getType(): string
+    public function getType(): string
     {
         return $this->type;
     }

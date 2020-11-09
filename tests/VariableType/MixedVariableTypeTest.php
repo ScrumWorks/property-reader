@@ -12,6 +12,6 @@ class MixedVariableTypeTest extends TestCase
     public function testIsNullable(): void
     {
         $mixedVariableType = new MixedVariableType();
-        $this->assertTrue($mixedVariableType->nullable);
+        $this->assertTrue($mixedVariableType->isNullable());
     }
 }
