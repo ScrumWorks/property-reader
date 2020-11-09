@@ -10,7 +10,8 @@ use Nette\SmartObject;
  * @property-read string $typeName
  * @property-read bool $nullable
  */
-abstract class AbstractVariableType implements VariableTypeInterface/*, Stringable - after PHp8.0*/
+/*, Stringable - after PHp8.0*/
+abstract class AbstractVariableType implements VariableTypeInterface
 {
     use SmartObject;
 
@@ -22,14 +23,14 @@ abstract class AbstractVariableType implements VariableTypeInterface/*, Stringab
         $this->validate();
     }
 
+    abstract public function __toString(): string;
+
     protected function isNullable(): bool
     {
         return $this->nullable;
     }
 
     abstract protected function validate(): void;
-
-    abstract public function __toString(): string;
 
     protected function getTypeName(): string
     {

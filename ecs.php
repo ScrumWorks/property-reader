@@ -15,6 +15,7 @@ use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
+use SlevomatCodingStandard\Helpers\PropertyTypeHint;
 use SlevomatCodingStandard\Sniffs\Arrays\DisallowImplicitArrayCreationSniff;
 use SlevomatCodingStandard\Sniffs\Classes\DisallowLateStaticBindingForConstantsSniff;
 use SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff;
@@ -29,6 +30,7 @@ use SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff;
 use SlevomatCodingStandard\Sniffs\PHP\OptimizedFunctionsWithoutUnpackingSniff;
 use SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff;
 use SlevomatCodingStandard\Sniffs\PHP\UselessSemicolonSniff;
+use SlevomatCodingStandard\Sniffs\TypeHints\PropertyTypeHintSniff;
 use SlevomatCodingStandard\Sniffs\Variables\DuplicateAssignmentToVariableSniff;
 use SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff;
 use SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff;
@@ -45,7 +47,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set('paths', [
         __DIR__ . '/src',
-        __DIR__ . '/tests',
     ]);
 
     $parameters->set('sets', [

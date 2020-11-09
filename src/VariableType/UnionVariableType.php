@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Amateri\PropertyReader\VariableType;
 
+use Exception;
+
 /**
  * @property-read VariableTypeInterface[] $types
  */
@@ -13,12 +15,17 @@ final class UnionVariableType extends AbstractVariableType
 
     /**
      * @param VariableTypeInterface[] $types
-     * @param bool $nullable
      */
     public function __construct(array $types, bool $nullable)
     {
         $this->types = $types;
+
         parent::__construct($nullable);
+    }
+
+    public function __toString(): string
+    {
+        return 'UNION';
     }
 
     /**
@@ -31,25 +38,17 @@ final class UnionVariableType extends AbstractVariableType
 
     protected function validate(): void
     {
-        if (count($this->types) < 2) {
-            throw new \Exception(sprintf(
-                'Union must have minimal two types, %d given',
-                count($this->types)
-            ));
+        if (\count($this->types) < 2) {
+            throw new Exception(\sprintf('Union must have minimal two types, %d given', \count($this->types)));
         }
         foreach ($this->types as $type) {
-            if (!($type instanceof VariableTypeInterface)) {
-                throw new \Exception(sprintf(
+            if (! ($type instanceof VariableTypeInterface)) {
+                throw new Exception(\sprintf(
                     "Given type '%s' doesn't implements %s interface",
-                    is_object($type) ? get_class($type) : gettype($type),
+                    \is_object($type) ? \get_class($type) : \gettype($type),
                     VariableTypeInterface::class
                 ));
             }
         }
-    }
-
-    public function __toString(): string
-    {
-        return 'UNION';
     }
 }
