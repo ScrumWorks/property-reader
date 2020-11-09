@@ -214,7 +214,7 @@ class VariableTypeUnifyServiceTest extends TestCase
         return $this->variableTypeUnifyService->same($a, $b);
     }
 
-    private function unify(?VariableTypeInterface $a, ?VariableTypeInterface $b): ?VariableTypeInterface
+    private function unify(?VariableTypeInterface $a, ?VariableTypeInterface $b): VariableTypeInterface
     {
         return $this->variableTypeUnifyService->unify($a, $b);
     }

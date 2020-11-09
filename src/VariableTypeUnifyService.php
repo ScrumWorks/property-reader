@@ -62,6 +62,8 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
             $b = $a;
         }
 
+        /** @var VariableTypeInterface $a */
+        /** @var VariableTypeInterface $b */
         if (! $a instanceof $b) {
             throw new Exception(\sprintf("Incompatible types '%s' and '%s'", $a->typeName, $b->typeName));
         }
