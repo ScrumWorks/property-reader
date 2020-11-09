@@ -21,7 +21,8 @@
         "symplify/easy-coding-standard": "^8.3",
         "symplify/easy-testing": "^8.3",
         "migrify/template-checker": "^0.3.49",
-        "symplify/phpstan-extensions": "^8.3"
+        "symplify/phpstan-extensions": "^8.3",
+        "slevomat/coding-standard": "^6.4"
     },
     "autoload": {
         "psr-4": {
@@ -34,9 +35,11 @@
         }
     },
     "scripts": {
+        "check-cs": "php vendor/bin/ecs check --ansi",
+        "fix-cs": "php vendor/bin/ecs check --fix --ansi",
         "lint" : "php vendor/bin/parallel-lint src tests",
-        "phpstan" : "php -d newrelic.enabled=off -d memory_limit=2048M vendor/bin/phpstan.phar analyse --ansi --error-format symplify",
+        "phpstan" : "php -d memory_limit=2048M vendor/bin/phpstan.phar analyse --ansi --error-format symplify",
         "phpunit": "php vendor/bin/phpunit -c ./phpunit.xml",
-        "test": ["@lint", "@phpstan", "@phpunit"]
+        "test": ["@lint", "@check-cs", "@phpstan", "@phpunit"]
     }
 }

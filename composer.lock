@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f346c6bd3ea3c74390d753b7256a659c",
+    "content-hash": "8b92e3650ece7cbef82ce0c61df92c01",
     "packages": [
         {
             "name": "nette/utils",
