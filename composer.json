@@ -1,6 +1,7 @@
 {
     "name": "scrumworks/property-reader",
     "description": "Property reader which can work with typed properties and phpdoc",
+    "license": "MIT",
     "type": "library",
     "keywords": ["property"],
     "authors": [
