@@ -86,12 +86,12 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
         }
 
         if (! AbstractVariableType::objectEquals($a->getKeyType(), $b->getKeyType())) {
-            throw new Exception(\sprintf('Array must have key type'));
+            throw new Exception('Array must have same key type');
         }
 
         return new ArrayVariableType(
-            $this->unify($a->getItemType(), $b->getItemType()),
             $a->getKeyType() !== null ? clone $a->getKeyType() : null,
+            $this->unify($a->getItemType(), $b->getItemType()),
             $a->isNullable()
         );
     }
