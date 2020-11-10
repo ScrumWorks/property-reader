@@ -15,10 +15,10 @@ use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
 final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterface
 {
-    public function unify(?VariableTypeInterface $a, ?VariableTypeInterface $b): VariableTypeInterface
+    public function unify(?VariableTypeInterface $a, ?VariableTypeInterface $b): ?VariableTypeInterface
     {
         if ($a === null && $b === null) {
-            return new MixedVariableType();
+            return null;
         }
         if ($a === null) {
             $a = $b;
@@ -77,11 +77,11 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
 
     private function unifyArray(ArrayVariableType $a, ArrayVariableType $b): VariableTypeInterface
     {
-        // `array` and `B` === `B`
-        if ($a->getItemType() instanceof MixedVariableType && $a->getKeyType() === null) {
+        // if $a or $b is only generic array (`array`) we return second one
+        if ($a->getItemType() === null && $a->getKeyType() === null) {
             return clone $b;
         }
-        if ($b->getItemType() instanceof MixedVariableType && $b->getKeyType() === null) {
+        if ($b->getItemType() === null && $b->getKeyType() === null) {
             return clone $a;
         }
 

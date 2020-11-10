@@ -27,7 +27,7 @@ class VariableTypeUnifyServiceTest extends TestCase
     {
         // `unify` is reflexive, only difference is that unify(null, null) === MixedVariableType
         $this->assertEquals(
-            $this->createMixed(),
+            null,
             $this->unify(null, null)
         );
 
@@ -74,11 +74,20 @@ class VariableTypeUnifyServiceTest extends TestCase
         );
 
         // array type
+        // array + array = array
+        $this->assertEquals(
+            new ArrayVariableType(null, null, false), // array
+            $this->unify(
+                new ArrayVariableType(null, null, false), // array
+                new ArrayVariableType(null, null, false), // array
+            )
+        );
+        // TODO: add test for mixed[] + int[] throws exception
         // array + int[] = int[]
         $this->assertEquals(
             new ArrayVariableType(null, $this->createInteger(false), false), // int[]
             $this->unify(
-                new ArrayVariableType(null, $this->createMixed(), false), // array
+                new ArrayVariableType(null, null, false), // array
                 new ArrayVariableType(null, $this->createInteger(false), false), // int[]
             )
         );
@@ -126,7 +135,7 @@ class VariableTypeUnifyServiceTest extends TestCase
         );
     }
 
-    private function unify(?VariableTypeInterface $a, ?VariableTypeInterface $b): VariableTypeInterface
+    private function unify(?VariableTypeInterface $a, ?VariableTypeInterface $b): ?VariableTypeInterface
     {
         return $this->variableTypeUnifyService->unify($a, $b);
     }
