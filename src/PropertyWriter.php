@@ -32,7 +32,7 @@ final class PropertyWriter
                 return 'array';
             }
             if ($variableType->getKeyType() === null) {
-                if ($variableType->getItemType() instanceof MixedVariableType) {
+                if ($variableType->getItemType() === null) {
                     return ($variableType->isNullable() ? '?' : '') . 'array';
                 }
                 return ($variableType->isNullable() ? '?' : '') . $this->variableTypeToString(

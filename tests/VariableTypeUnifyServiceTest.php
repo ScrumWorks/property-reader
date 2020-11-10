@@ -76,17 +76,17 @@ class VariableTypeUnifyServiceTest extends TestCase
         // array type
         // array + int[] = int[]
         $this->assertEquals(
-            new ArrayVariableType($this->createInteger(false), null, false), // int[]
+            new ArrayVariableType(null, $this->createInteger(false), false), // int[]
             $this->unify(
-                new ArrayVariableType($this->createMixed(), null, false), // array
-                new ArrayVariableType($this->createInteger(false), null, false), // int[]
+                new ArrayVariableType(null, $this->createMixed(), false), // array
+                new ArrayVariableType(null, $this->createInteger(false), false), // int[]
             )
         );
         // array<string, string> + string[] causes exception
         $this->expectException(\Exception::class);
         $this->unify(
             new ArrayVariableType($this->createString(false), $this->createString(false), false), // array<string, string>
-            new ArrayVariableType($this->createString(false), null, false), // string[]
+            new ArrayVariableType(null, $this->createString(false), false), // string[]
         );
 
         // classes must have same class type

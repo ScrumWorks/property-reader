@@ -18,11 +18,11 @@ class ArrayVariableTypeTest extends TestCase
     public function testValidIntStringUnionKey(): void
     {
         $arrayVariableType = new ArrayVariableType(
-            new MixedVariableType(),
             new UnionVariableType([
                 new ScalarVariableType(ScalarVariableType::TYPE_STRING, false),
                 new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, false),
             ], false),
+            new MixedVariableType(),
             true
         );
         $this->assertNotNull($arrayVariableType); // TODO maybe another assertation?
@@ -40,8 +40,8 @@ class ArrayVariableTypeTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectErrorMessage("Key type can be only string or integer, 'BOOLEAN' given");
         new ArrayVariableType(
-            new MixedVariableType(),
             new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, false),
+            new MixedVariableType(),
             true
         );
     }
@@ -51,8 +51,8 @@ class ArrayVariableTypeTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectErrorMessage("Key can't be nullable");
         new ArrayVariableType(
-            new MixedVariableType(),
             new ScalarVariableType(ScalarVariableType::TYPE_STRING, true),
+            new MixedVariableType(),
             true
         );
     }
@@ -62,11 +62,11 @@ class ArrayVariableTypeTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectErrorMessage("Key can't be nullable");
         new ArrayVariableType(
-            new MixedVariableType(),
             new UnionVariableType([
                 new ScalarVariableType(ScalarVariableType::TYPE_STRING, false),
                 new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, false),
             ], true),
+            new MixedVariableType(),
             true
         );
     }
@@ -76,11 +76,11 @@ class ArrayVariableTypeTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectErrorMessage("Keys can be only scalar types, 'MIXED' given");
         new ArrayVariableType(
-            new MixedVariableType(),
             new UnionVariableType([
                 new ScalarVariableType(ScalarVariableType::TYPE_STRING, false),
                 new MixedVariableType(),
             ], false),
+            new MixedVariableType(),
             false
         );
     }
@@ -89,20 +89,20 @@ class ArrayVariableTypeTest extends TestCase
     {
         $this->assertTrue(
             $this->variableTypeEquals(
-                new ArrayVariableType($this->createInteger(true), $this->createString(false), false),
-                new ArrayVariableType($this->createInteger(true), $this->createString(false), false),
+                new ArrayVariableType($this->createString(false), $this->createInteger(true), false),
+                new ArrayVariableType($this->createString(false), $this->createInteger(true), false),
             )
         );
         $this->assertFalse(
             $this->variableTypeEquals(
-                new ArrayVariableType($this->createString(true), $this->createString(false), false),
-                new ArrayVariableType($this->createInteger(true), $this->createString(false), false),
+                new ArrayVariableType($this->createString(false), $this->createString(true), false),
+                new ArrayVariableType($this->createString(false), $this->createInteger(true), false),
             )
         );
         $this->assertFalse(
             $this->variableTypeEquals(
-                new ArrayVariableType($this->createInteger(true), null, false),
-                new ArrayVariableType($this->createInteger(true), $this->createString(false), false),
+                new ArrayVariableType(null, $this->createInteger(true), false),
+                new ArrayVariableType($this->createString(false), $this->createInteger(true), false),
             )
         );
     }

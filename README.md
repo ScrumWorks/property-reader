@@ -7,7 +7,97 @@
 composer require scrumworks/property-reader
 ```
 
-## Example
+## Documentation
+
+Class property can be translated to these variants:
+
+### null
+
+`null` is returned for properties without any information.
+
+It's generally `mixed` type, but it's acting differently f.e. in array types.
+
+```php
+public $var;
+```
+### MixedVariableType
+
+It's returned for variables with `mixed` directly information.
+
+```php
+/**
+ * @var mixed
+ */
+public $var;
+```
+
+### ScalarVariableType
+
+Supports this basic scalar types:
+  - `int`, `integer`
+  - `float`
+  - `bool`, `boolean`
+  - `string`
+
+```php
+/**
+ * @var integer
+ */
+public int $var;
+```
+### ArrayVariableType
+
+Arrays are considered to be seqential array or hashmap.
+
+Arrays are translated in this way: (we use definition `array<key, type>`)
+- generic `array` has type `array<null, null>`
+- seqential `int[]` has type `array<null, int>`
+- hashmap `array<string, string>` has type `array<string, string>`
+
+In general - `null` in `key` is proposing seqential array, other types (only `integer` and  `string` are supported) are
+propose hashmap. Only difference is `key == value == null`, then it's
+generic array.
+
+**Warning** - `mixed[]` has different type than `array`
+
+We also support nested arrays like `int[][]` or `array<string, string>[]`
+
+```php
+/**
+ * @var int[]
+ */
+public array $var;
+```
+
+### ClassVariableType
+
+```php
+/**
+ * @var SomeClass
+ */
+public SomeClass $var;
+```
+
+### UnionVariableType
+
+```php
+/**
+ * @var int|string
+ */
+public $var;
+```
+
+### Nullablity of types
+
+Every type can by set to be nullable in this ways:
+- `?int`
+- `int|null`
+
+Types `null` and `MixedVariableType` are nullable by default.
+
+**Warning** - `?int|string` isn't `(?int)|string` but `int|string|null`
+
+## Example usage
 
 ```php
 <?php

@@ -36,10 +36,10 @@ class UnionVariableTypeTest extends TestCase
                 new UnionVariableType([
                     $this->createInteger(true),
                     $this->createString(false),
-                    new ArrayVariableType($this->createString(false), null, false),
+                    new ArrayVariableType(null, $this->createString(false), false),
                 ], true),
                 new UnionVariableType([
-                    new ArrayVariableType($this->createString(false), null, false),
+                    new ArrayVariableType(null, $this->createString(false), false),
                     $this->createString(false),
                     $this->createInteger(true),
                 ], true)
