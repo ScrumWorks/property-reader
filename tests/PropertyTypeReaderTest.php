@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests;
 
-use ScrumWorks\PropertyReader\PropertyReader;
+use ScrumWorks\PropertyReader\PropertyTypeReader;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
@@ -19,16 +19,16 @@ use PHPUnit\Framework\TestCase;
 class TestClass
 {
     /**
-     * @var PropertyReaderTest
+     * @var PropertyTypeReaderTest
      */
-    public PropertyReaderTest $class;
+    public PropertyTypeReaderTest $class;
 }
 
-class PropertyReaderTest extends TestCase
+class PropertyTypeReaderTest extends TestCase
 {
     use VariableTypeCreatingTrait;
 
-    private PropertyReader $propertyReader;
+    private PropertyTypeReader $propertyTypeReader;
 
     public function setUp(): void
     {
@@ -38,7 +38,7 @@ class PropertyReaderTest extends TestCase
                 return null;
             }
         };
-        $this->propertyReader = new PropertyReader($variableTypeUnifyServiceMock);
+        $this->propertyTypeReader = new PropertyTypeReader($variableTypeUnifyServiceMock);
     }
 
     public function testEmptyDefinition(): void
@@ -414,11 +414,11 @@ class PropertyReaderTest extends TestCase
 
         $property = $reflection->getProperty('class');
         $this->assertEquals(
-            new ClassVariableType(PropertyReaderTest::class, false),
+            new ClassVariableType(PropertyTypeReaderTest::class, false),
             $this->readFromPropertyType($property)
         );
         $this->assertEquals(
-            new ClassVariableType(PropertyReaderTest::class, false),
+            new ClassVariableType(PropertyTypeReaderTest::class, false),
             $this->readFromPhpDoc($property)
         );
     }
@@ -460,36 +460,11 @@ class PropertyReaderTest extends TestCase
 
     private function readFromPropertyType(\ReflectionProperty $property): ?VariableTypeInterface
     {
-        return $this->propertyReader->readVariableTypeFromPropertyType($property);
+        return $this->propertyTypeReader->readVariableTypeFromPropertyType($property);
     }
 
     private function readFromPhpDoc(\ReflectionProperty $property): ?VariableTypeInterface
     {
-        return $this->propertyReader->readVariableTypeFromPhpDoc($property);
-    }
-
-    private function createMixed(): MixedVariableType
-    {
-        return new MixedVariableType();
-    }
-
-    private function createInteger(bool $nullable): ScalarVariableType
-    {
-        return new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, $nullable);
-    }
-
-    private function createFloat(bool $nullable): ScalarVariableType
-    {
-        return new ScalarVariableType(ScalarVariableType::TYPE_FLOAT, $nullable);
-    }
-
-    private function createBoolean(bool $nullable): ScalarVariableType
-    {
-        return new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, $nullable);
-    }
-
-    private function createString(bool $nullable): ScalarVariableType
-    {
-        return new ScalarVariableType(ScalarVariableType::TYPE_STRING, $nullable);
+        return $this->propertyTypeReader->readVariableTypeFromPhpDoc($property);
     }
 }

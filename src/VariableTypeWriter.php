@@ -11,7 +11,7 @@ use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
-final class PropertyWriter
+final class VariableTypeWriter
 {
     public function variableTypeToString(VariableTypeInterface $variableType, $phpCompatible = false): string
     {

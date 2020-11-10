@@ -102,8 +102,8 @@ Types `null` and `MixedVariableType` are nullable by default.
 ```php
 <?php
 
-use ScrumWorks\PropertyReader\PropertyReader;
-use ScrumWorks\PropertyReader\PropertyWriter;
+use ScrumWorks\PropertyReader\PropertyTypeReader;
+use ScrumWorks\PropertyReader\VariableTypeWriter;
 use ScrumWorks\PropertyReader\VariableTypeUnifyService;
 
 class Example
@@ -122,7 +122,7 @@ class Example
      */
     public array $hashmap;
 
-    public PropertyWriter $propertyWriter;
+    public VariableTypeWriter $class;
 
     /**
      * @var int|int[]|null
@@ -133,15 +133,15 @@ class Example
 $reflection = new ReflectionClass(Example::class);
 
 $variableTypeUnifyService = new VariableTypeUnifyService();
-$propertyReader = new PropertyReader($variableTypeUnifyService);
-$propertyWriter = new PropertyWriter();
+$propertyTypeReader = new PropertyTypeReader($variableTypeUnifyService);
+$variableTypeWriter = new VariableTypeWriter();
 
 foreach ($reflection->getProperties() as $propertyReflection) {
-    $variableType = $propertyReader->readUnifiedVariableType($propertyReflection);
+    $variableType = $propertyTypeReader->readUnifiedVariableType($propertyReflection);
     printf(
         "%s: %s\n",
         $propertyReflection->getName(),
-        $propertyWriter->variableTypeToString($variableType)
+        $variableTypeWriter->variableTypeToString($variableType)
     );
 }
 ```
@@ -151,7 +151,7 @@ untyped: mixed
 integer: int
 nullableString: ?string
 hashmap: array<string, string[]>
-propertyWriter: Amateri\PropertyReader\PropertyWriter
+class: ScrumWorks\PropertyReader\VariableTypeWriter
 union: ?int|int[]
 ```
 
@@ -164,7 +164,7 @@ use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 // load object...
 
 /** @var ArrayVariableType $hashmapType */
-$hashmapType = $propertyReader->readUnifiedVariableType($reflection->getProperty('hashmap'));
+$hashmapType = $propertyTypeReader->readUnifiedVariableType($reflection->getProperty('hashmap'));
 assert($hashmapType->isNullable() === false);
 assert($hashmapType->getKeyType() instanceof ScalarVariableType);
 assert($hashmapType->getKeyType()->getType() === ScalarVariableType::TYPE_STRING);

@@ -7,7 +7,7 @@ namespace ScrumWorks\PropertyReader;
 use ReflectionProperty;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
-interface PropertyReaderInterface
+interface PropertyTypeReaderInterface
 {
     public function readUnifiedVariableType(ReflectionProperty $property): ?VariableTypeInterface;
 

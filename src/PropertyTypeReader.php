@@ -17,7 +17,7 @@ use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
-final class PropertyReader implements PropertyReaderInterface
+final class PropertyTypeReader implements PropertyTypeReaderInterface
 {
     private VariableTypeUnifyServiceInterface $variableTypeUnifyService;
 
