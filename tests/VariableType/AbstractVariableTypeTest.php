@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
-use ScrumWorks\PropertyReader\VariableType\AbstractVariableType;
 use PHPUnit\Framework\TestCase;
 
 class AbstractVariableTypeTest extends TestCase
