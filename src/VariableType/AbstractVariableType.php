@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\VariableType;
 
-use Nette\SmartObject;
-
 /*, Stringable - after PHp8.0*/
 abstract class AbstractVariableType implements VariableTypeInterface
 {
-    use SmartObject;
-
     protected bool $nullable;
 
     public function __construct(bool $nullable)
