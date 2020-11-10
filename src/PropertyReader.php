@@ -126,16 +126,16 @@ final class PropertyReader implements PropertyReaderInterface
     private function tryIsArray(string $type, bool $nullable, ReflectionProperty $property): ?VariableTypeInterface
     {
         if ($type === 'array') {
-            return new ArrayVariableType(new MixedVariableType(), null, $nullable);
+            return new ArrayVariableType(null, null, $nullable);
         }
         if (\substr($type, -2) === '[]') {
             $itemType = $this->parseType(\substr($type, 0, -2), $property);
-            return new ArrayVariableType($itemType, null, $nullable);
+            return new ArrayVariableType(null, $itemType, $nullable);
         }
         if ($match = Strings::match($type, '~^array<((?P<key>[^,]+)\s*,\s*)?(?P<type>.+)>$~')) {
             $itemType = $this->parseType($match['type'], $property);
             $keyType = $match['key'] ? $this->parseType($match['key'], $property) : null;
-            return new ArrayVariableType($itemType, $keyType, $nullable);
+            return new ArrayVariableType($keyType, $itemType, $nullable);
         }
 
         return null;

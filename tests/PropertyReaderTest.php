@@ -306,7 +306,7 @@ class PropertyReaderTest extends TestCase
         $property = $reflection->getProperty('array');
         $this->assertEquals(
             new ArrayVariableType(
-                $this->createMixed(),
+                null,
                 null,
                 false
             ),
@@ -314,8 +314,8 @@ class PropertyReaderTest extends TestCase
         );
         $this->assertEquals(
             new ArrayVariableType(
-                $this->createInteger(false),
                 null,
+                $this->createInteger(false),
                 false
             ),
             $this->readFromPhpDoc($property)
@@ -325,8 +325,8 @@ class PropertyReaderTest extends TestCase
         $property = $reflection->getProperty('arrayAlternative');
         $this->assertEquals(
             new ArrayVariableType(
-                $this->createInteger(false),
                 null,
+                $this->createInteger(false),
                 false
             ),
             $this->readFromPhpDoc($property)
@@ -336,7 +336,7 @@ class PropertyReaderTest extends TestCase
         $property = $reflection->getProperty('generalArray');
         $this->assertEquals(
             new ArrayVariableType(
-                $this->createMixed(),
+                null,
                 null,
                 false
             ),
@@ -347,12 +347,12 @@ class PropertyReaderTest extends TestCase
         $property = $reflection->getProperty('nestedArray');
         $this->assertEquals(
             new ArrayVariableType(
+                null,
                 new ArrayVariableType(
-                    $this->createInteger(false),
                     null,
+                    $this->createInteger(false),
                     false
                 ),
-                null,
                 false
             ),
             $this->readFromPhpDoc($property)
@@ -373,12 +373,12 @@ class PropertyReaderTest extends TestCase
         $property = $reflection->getProperty('nestedHashmap');
         $this->assertEquals(
             new ArrayVariableType(
+                $this->createString(false),
                 new ArrayVariableType(
-                    $this->createString(false),
                     $this->createInteger(false),
+                    $this->createString(false),
                     false
                 ),
-                $this->createString(false),
                 false
             ),
             $this->readFromPhpDoc($property)
@@ -388,19 +388,19 @@ class PropertyReaderTest extends TestCase
         $property = $reflection->getProperty('complicatedArray');
         $this->assertEquals(
             new ArrayVariableType(
-                new ArrayVariableType(
-                    new ArrayVariableType(
-                        $this->createInteger(false),
-                        null,
-                        false
-                    ),
-                    null,
-                    true
-                ),
                 new UnionVariableType([
                     $this->createInteger(false),
                     $this->createString(false),
                 ], false),
+                new ArrayVariableType(
+                    null,
+                    new ArrayVariableType(
+                        null,
+                        $this->createInteger(false),
+                        false
+                    ),
+                    true
+                ),
                 false
             ),
             $this->readFromPhpDoc($property)

@@ -8,14 +8,14 @@ use Exception;
 
 final class ArrayVariableType extends AbstractVariableType
 {
-    protected VariableTypeInterface $itemType;
-
     protected ?VariableTypeInterface $keyType;
 
-    public function __construct(VariableTypeInterface $itemType, ?VariableTypeInterface $keyType, bool $nullable)
+    protected ?VariableTypeInterface $itemType;
+
+    public function __construct(?VariableTypeInterface $keyType, ?VariableTypeInterface $itemType, bool $nullable)
     {
-        $this->itemType = $itemType;
         $this->keyType = $keyType;
+        $this->itemType = $itemType;
 
         parent::__construct($nullable);
     }
@@ -25,14 +25,14 @@ final class ArrayVariableType extends AbstractVariableType
         return 'ARRAY';
     }
 
-    public function getItemType(): VariableTypeInterface
-    {
-        return $this->itemType;
-    }
-
     public function getKeyType(): ?VariableTypeInterface
     {
         return $this->keyType;
+    }
+
+    public function getItemType(): ?VariableTypeInterface
+    {
+        return $this->itemType;
     }
 
     public function equals(VariableTypeInterface $object): bool
