@@ -35,6 +35,21 @@ final class ArrayVariableType extends AbstractVariableType
         return $this->itemType;
     }
 
+    public function isGenericArray(): bool
+    {
+        return $this->keyType === null && $this->itemType === null;
+    }
+
+    public function isSequenceArray(): bool
+    {
+        return $this->keyType === null && $this->itemType !== null;
+    }
+
+    public function isHashmap(): bool
+    {
+        return $this->keyType !== null;
+    }
+
     public function equals(VariableTypeInterface $object): bool
     {
         if (! parent::equals($object)) {
