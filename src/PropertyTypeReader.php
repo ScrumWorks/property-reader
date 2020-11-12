@@ -143,7 +143,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 
     private function tryIsObject(string $type, bool $nullable): ?VariableTypeInterface
     {
-        if (\class_exists($type)) {
+        if (\class_exists($type) || \interface_exists($type)) {
             return new ClassVariableType($type, $nullable);
         }
 
@@ -152,8 +152,8 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 
     private function expandClassName(string $str, ReflectionProperty $property): string
     {
-        if (\class_exists($str)) {
-            return $str;
+        if (\class_exists($str) || \interface_exists($str)) {
+            return \ltrim($str, '\\');
         }
         return Reflection::expandClassName($str, Reflection::getPropertyDeclaringClass($property));
     }

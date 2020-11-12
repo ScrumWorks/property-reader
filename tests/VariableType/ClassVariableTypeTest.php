@@ -23,7 +23,7 @@ class ClassVariableTypeTest extends TestCase
     public function testInvalidClass(): void
     {
         $this->expectException(\Exception::class);
-        $this->expectErrorMessage("Unknown class 'some-not-existing-class' given");
+        $this->expectErrorMessage("Unknown class/interface 'some-not-existing-class' given");
         new ClassVariableType('some-not-existing-class', true);
     }
 
@@ -31,5 +31,17 @@ class ClassVariableTypeTest extends TestCase
     {
         $this->assertTrue($this->variableTypeEquals(new ClassVariableType(ArrayVariableType::class, false), new ClassVariableType(ArrayVariableType::class, false)));
         $this->assertFalse($this->variableTypeEquals(new ClassVariableType(ArrayVariableType::class, false), new ClassVariableType(MixedVariableType::class, false)));
+    }
+
+    public function testIsClass(): void
+    {
+        $this->assertTrue((new ClassVariableType(ArrayVariableType::class, false))->isClass());
+        $this->assertFalse((new ClassVariableType(ArrayVariableType::class, false))->isInterface());
+    }
+
+    public function testIsInterface(): void
+    {
+        $this->assertTrue((new ClassVariableType(\DateTimeInterface::class, false))->isInterface());
+        $this->assertFalse((new ClassVariableType(\DateTimeInterface::class, false))->isClass());
     }
 }

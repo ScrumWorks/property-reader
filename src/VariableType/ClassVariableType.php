@@ -27,6 +27,16 @@ final class ClassVariableType extends AbstractVariableType
         return $this->class;
     }
 
+    public function isClass(): bool
+    {
+        return \class_exists($this->class);
+    }
+
+    public function isInterface(): bool
+    {
+        return \interface_exists($this->class);
+    }
+
     public function equals(VariableTypeInterface $object): bool
     {
         if (! parent::equals($object)) {
@@ -38,8 +48,8 @@ final class ClassVariableType extends AbstractVariableType
 
     protected function validate(): void
     {
-        if (! \class_exists($this->class)) {
-            throw new Exception("Unknown class '{$this->class}' given");
+        if (! \class_exists($this->class) && ! \interface_exists($this->class)) {
+            throw new Exception("Unknown class/interface '{$this->class}' given");
         }
     }
 }
