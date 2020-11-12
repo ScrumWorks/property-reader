@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
+use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 
 class GeneralPropertyTestClass
@@ -48,7 +49,7 @@ class GeneralPropertyTest extends AbstractPropertyTest
     public function testNotAllowedBraces(): void
     {
         $property = $this->reflection->getProperty('withBraces');
-        $this->expectException(\Exception::class);
+        $this->expectException(LogicException::class);
         $this->expectErrorMessage('Braces are not support in type');
         $this->readFromPhpDoc($property);
     }

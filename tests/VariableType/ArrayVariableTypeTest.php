@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
+use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
@@ -30,14 +31,14 @@ class ArrayVariableTypeTest extends TestCase
 
     public function testInvalidNonScalarKey(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage("Keys can be only scalar types, 'MIXED' given");
         new ArrayVariableType(new MixedVariableType(), new MixedVariableType(), true);
     }
 
     public function testInvalidScalarKeyWithBadType(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage("Key type can be only string or integer, 'BOOLEAN' given");
         new ArrayVariableType(
             new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, false),
@@ -48,7 +49,7 @@ class ArrayVariableTypeTest extends TestCase
 
     public function testInvalidNullableScalarKey(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage("Key can't be nullable");
         new ArrayVariableType(
             new ScalarVariableType(ScalarVariableType::TYPE_STRING, true),
@@ -59,7 +60,7 @@ class ArrayVariableTypeTest extends TestCase
 
     public function testInvalidNullableUnionKey(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage("Key can't be nullable");
         new ArrayVariableType(
             new UnionVariableType([
@@ -73,7 +74,7 @@ class ArrayVariableTypeTest extends TestCase
 
     public function testInvalidUnionKeyWithNonScalarTypes(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage("Keys can be only scalar types, 'MIXED' given");
         new ArrayVariableType(
             new UnionVariableType([

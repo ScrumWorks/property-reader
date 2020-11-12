@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
+use ScrumWorks\PropertyReader\Exception\IncompatibleVariableTypesException;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 
@@ -22,7 +23,7 @@ class ClassTypeUnifyTest extends AbstractUnifyTest
 
     public function testDifferentClasses(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(IncompatibleVariableTypesException::class);
         $this->expectErrorMessage(sprintf(
             "Can't merge %s and %s classes",
             ArrayVariableType::class,

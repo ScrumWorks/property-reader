@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\VariableType;
 
-use Exception;
+use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 
 final class ClassVariableType extends AbstractVariableType
 {
@@ -49,7 +49,7 @@ final class ClassVariableType extends AbstractVariableType
     protected function validate(): void
     {
         if (! \class_exists($this->class) && ! \interface_exists($this->class)) {
-            throw new Exception("Unknown class/interface '{$this->class}' given");
+            throw new InvalidArgumentException("Unknown class/interface '{$this->class}' given");
         }
     }
 }

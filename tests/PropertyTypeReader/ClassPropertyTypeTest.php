@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
+use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\PropertyTypeReader;
 
 class ClassPropertyTypeTestClass
@@ -58,7 +59,7 @@ class ClassPropertyTypeTest extends AbstractPropertyTest
 
     public function testNotExistingClass(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Unknown type "SomeNotExistsClass"');
         $property = $this->getPropertyReflection('notExistsClass');
         $this->readFromPhpDoc($property);

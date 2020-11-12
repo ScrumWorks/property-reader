@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader;
 
-use Exception;
-use Nette\InvalidStateException;
 use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
 use ReflectionNamedType;
 use ReflectionProperty;
+use ScrumWorks\PropertyReader\Exception\InvalidStateException;
+use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
@@ -59,7 +59,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         $nullable = false;
 
         if (\strpos($type, '(') !== false || \strpos($type, ')') !== false) {
-            throw new Exception('Braces are not support in type');
+            throw new LogicException('Braces are not support in type');
         }
 
         $type = \preg_replace('/^\?/', 'null|', $type);
@@ -70,7 +70,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         }
 
         if (! $types) {
-            throw new Exception("Unresolvable definition '${type}'");
+            throw new LogicException("Unresolvable definition '${type}'");
         }
 
         if (\count($types) > 1) {
@@ -95,7 +95,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
             return $result;
         }
 
-        throw new Exception(\sprintf('Unknown type "%s"', $type));
+        throw new LogicException(\sprintf('Unknown type "%s"', $type));
     }
 
     private function tryIsMixed(string $type): ?VariableTypeInterface

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
+use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
@@ -22,7 +23,7 @@ class ClassVariableTypeTest extends TestCase
 
     public function testInvalidClass(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage("Unknown class/interface 'some-not-existing-class' given");
         new ClassVariableType('some-not-existing-class', true);
     }

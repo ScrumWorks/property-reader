@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
+use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +15,7 @@ class ScalarVariableTypeTest extends TestCase
 
     public function testBadParameterType(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage("Unknown 'some-not-exists-constant' scalar type given");
         new ScalarVariableType('some-not-exists-constant', false);
     }

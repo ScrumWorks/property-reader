@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
+use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 
 class NullablePropertyTestClass
@@ -92,7 +93,7 @@ class NullablePropertyTest extends AbstractPropertyTest
     {
         // property with only nullable definition
         $property = $this->reflection->getProperty('unresolvableNullable');
-        $this->expectException(\Exception::class);
+        $this->expectException(LogicException::class);
         $this->expectErrorMessage("Unresolvable definition 'null'");
         $this->readFromPhpDoc($property);
     }

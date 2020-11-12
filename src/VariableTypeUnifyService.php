@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader;
 
-use Exception;
+use ScrumWorks\PropertyReader\Exception\DomainException;
+use ScrumWorks\PropertyReader\Exception\IncompatibleVariableTypesException;
+use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 use ScrumWorks\PropertyReader\VariableType\AbstractVariableType;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
@@ -30,11 +32,15 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
         /** @var VariableTypeInterface $a */
         /** @var VariableTypeInterface $b */
         if (! $a instanceof $b) {
-            throw new Exception(\sprintf("Incompatible types '%s' and '%s'", $a->getTypeName(), $b->getTypeName()));
+            throw new IncompatibleVariableTypesException(\sprintf(
+                "Incompatible types '%s' and '%s'",
+                $a->getTypeName(),
+                $b->getTypeName()
+            ));
         }
 
         if ($a->isNullable() !== $b->isNullable()) {
-            throw new Exception(\sprintf(
+            throw new IncompatibleVariableTypesException(\sprintf(
                 "Incompatible nullable settings for '%s' and '%s'",
                 $a->getTypeName(),
                 $b->getTypeName()
@@ -58,7 +64,7 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
             return $this->unifyUnion($a, $b);
         }
 
-        throw new Exception(\sprintf('Uknown %s for merging', VariableTypeInterface::class));
+        throw new InvalidArgumentException(\sprintf('Unknown %s for merging', VariableTypeInterface::class));
     }
 
     private function unifyMixed(MixedVariableType $a, MixedVariableType $b): VariableTypeInterface
@@ -69,7 +75,11 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
     private function unifyScalar(ScalarVariableType $a, ScalarVariableType $b): VariableTypeInterface
     {
         if ($a->getType() !== $b->getType()) {
-            throw new Exception(\sprintf("Can't merge %s and %s scalar types", $a->getType(), $b->getType()));
+            throw new IncompatibleVariableTypesException(\sprintf(
+                "Can't merge %s and %s scalar types",
+                $a->getType(),
+                $b->getType()
+            ));
         }
 
         return clone $a;
@@ -86,7 +96,7 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
         }
 
         if (! AbstractVariableType::objectEquals($a->getKeyType(), $b->getKeyType())) {
-            throw new Exception('Array must have same key type');
+            throw new IncompatibleVariableTypesException('Array must have same key type');
         }
 
         return new ArrayVariableType(
@@ -99,7 +109,11 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
     private function unifyClass(ClassVariableType $a, ClassVariableType $b): VariableTypeInterface
     {
         if ($a->getClass() !== $b->getClass()) {
-            throw new Exception(\sprintf("Can't merge %s and %s classes", $a->getClass(), $b->getClass()));
+            throw new IncompatibleVariableTypesException(\sprintf(
+                "Can't merge %s and %s classes",
+                $a->getClass(),
+                $b->getClass()
+            ));
         }
 
         return clone $a;
@@ -111,6 +125,6 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
             return clone $a;
         }
 
-        throw new Exception("Can't merge this union types (@TODO)");
+        throw new DomainException("Can't merge this union types (@TODO)");
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\VariableType;
 
-use Exception;
+use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 
 final class ScalarVariableType extends AbstractVariableType
 {
@@ -47,7 +47,7 @@ final class ScalarVariableType extends AbstractVariableType
     protected function validate(): void
     {
         if (! \in_array($this->type, [self::TYPE_INTEGER, self::TYPE_FLOAT, self::TYPE_BOOLEAN, self::TYPE_STRING])) {
-            throw new Exception("Unknown '{$this->type}' scalar type given");
+            throw new InvalidArgumentException("Unknown '{$this->type}' scalar type given");
         }
     }
 }

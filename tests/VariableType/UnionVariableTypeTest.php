@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
+use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
@@ -16,14 +17,14 @@ class UnionVariableTypeTest extends TestCase
 
     public function testMinimumInputTypes(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage("Union must have minimal two types, 0 given");
         new UnionVariableType([], false);
     }
 
     public function testInputTypesMustBeVariableTypeInterface(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage("Given type 'integer' doesn't implements ScrumWorks\PropertyReader\VariableType\VariableTypeInterface");
         // @phpstan-ignore-next-line
         new UnionVariableType([1, new MixedVariableType()], false);

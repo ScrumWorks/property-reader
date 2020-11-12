@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
+use ScrumWorks\PropertyReader\Exception\IncompatibleVariableTypesException;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 
 class GeneralUnifyTest extends AbstractUnifyTest
@@ -34,7 +35,7 @@ class GeneralUnifyTest extends AbstractUnifyTest
 
     public function testIncompatibleTypes(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(IncompatibleVariableTypesException::class);
         $this->expectErrorMessage("Incompatible types 'MIXED' and 'SCALAR[INTEGER]'");
         $this->unify(
             $this->createMixed(),
@@ -44,7 +45,7 @@ class GeneralUnifyTest extends AbstractUnifyTest
 
     public function testIncompatibleNullableTypes(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(IncompatibleVariableTypesException::class);
         $this->expectErrorMessage("Incompatible nullable settings for 'SCALAR[INTEGER]' and 'SCALAR[INTEGER]'");
         $this->assertEquals(
             $this->createInteger(true),

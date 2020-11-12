@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\VariableType;
 
-use Exception;
+use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 
 final class ArrayVariableType extends AbstractVariableType
 {
@@ -65,7 +65,7 @@ final class ArrayVariableType extends AbstractVariableType
         $keysToCheck = [];
         if ($this->keyType instanceof UnionVariableType) {
             if ($this->keyType->isNullable()) {
-                throw new Exception("Key can't be nullable");
+                throw new InvalidArgumentException("Key can't be nullable");
             }
             $keysToCheck += $this->keyType->getTypes();
         } else {
@@ -77,13 +77,19 @@ final class ArrayVariableType extends AbstractVariableType
                 continue;
             }
             if (! ($key instanceof ScalarVariableType)) {
-                throw new Exception(\sprintf("Keys can be only scalar types, '%s' given", $key->getTypeName()));
+                throw new InvalidArgumentException(\sprintf(
+                    "Keys can be only scalar types, '%s' given",
+                    $key->getTypeName()
+                ));
             }
             if (! \in_array($key->getType(), [ScalarVariableType::TYPE_STRING, ScalarVariableType::TYPE_INTEGER])) {
-                throw new Exception(\sprintf("Key type can be only string or integer, '%s' given", $key->getType()));
+                throw new InvalidArgumentException(\sprintf(
+                    "Key type can be only string or integer, '%s' given",
+                    $key->getType()
+                ));
             }
             if ($key->nullable) {
-                throw new Exception("Key can't be nullable");
+                throw new InvalidArgumentException("Key can't be nullable");
             }
         }
     }
