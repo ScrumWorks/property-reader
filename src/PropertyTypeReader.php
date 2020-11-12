@@ -26,7 +26,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         $this->variableTypeUnifyService = $variableTypeUnifyService;
     }
 
-    public function readUnifiedVariableType(ReflectionProperty $property): VariableTypeInterface
+    public function readUnifiedVariableType(ReflectionProperty $property): ?VariableTypeInterface
     {
         return $this->variableTypeUnifyService->unify(
             $this->readVariableTypeFromPropertyType($property),

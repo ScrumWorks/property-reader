@@ -13,9 +13,9 @@ use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
 final class VariableTypeWriter
 {
-    public function variableTypeToString(VariableTypeInterface $variableType, $phpCompatible = false): string
+    public function variableTypeToString(?VariableTypeInterface $variableType, $phpCompatible = false): string
     {
-        if ($variableType instanceof MixedVariableType) {
+        if ($variableType === null || $variableType instanceof MixedVariableType) {
             if ($phpCompatible) {
                 return '';
             }
