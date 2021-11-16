@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
+namespace ScrumWorks\PropertyReader\Tests\VariableTypeUnifyService;
 use PHPUnit\Framework\TestCase;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;

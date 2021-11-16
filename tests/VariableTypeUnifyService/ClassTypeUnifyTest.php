@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
+namespace ScrumWorks\PropertyReader\Tests\VariableTypeUnifyService;
 
 use ScrumWorks\PropertyReader\Exception\IncompatibleVariableTypesException;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;

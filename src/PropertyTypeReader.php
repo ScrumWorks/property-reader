@@ -8,6 +8,7 @@ use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
 use ReflectionNamedType;
 use ReflectionProperty;
+use ReflectionUnionType;
 use ScrumWorks\PropertyReader\Exception\InvalidStateException;
 use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
@@ -19,6 +20,8 @@ use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
 final class PropertyTypeReader implements PropertyTypeReaderInterface
 {
+    private const NULL_TYPE = 'null';
+
     private VariableTypeUnifyServiceInterface $variableTypeUnifyService;
 
     public function __construct(VariableTypeUnifyServiceInterface $variableTypeUnifyService)
@@ -36,12 +39,24 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 
     public function readVariableTypeFromPropertyType(ReflectionProperty $property): ?VariableTypeInterface
     {
-        if (($propertyType = $property->getType()) instanceof ReflectionNamedType) {
-            $type = $propertyType->getName();
-            $nullable = $propertyType->allowsNull();
+        $propertyType = $property->getType();
+        if ($propertyType instanceof ReflectionNamedType) {
+            return $this->createFromTypeNames([$propertyType->getName()], $propertyType->allowsNull(), $property);
+        } elseif ($propertyType instanceof ReflectionUnionType) {
+            $types = [];
+            $nullable = false;
+            foreach ($propertyType->getTypes() as $type) {
+                if ($type->getName() === self::NULL_TYPE) {
+                    $nullable = true;
+                } else {
+                    $types[] = $type->getName();
+                }
+                $nullable = $nullable || $type->allowsNull();
+            }
 
-            return $this->parseType(($nullable ? 'null|' : '') . $type, $property);
+            return $this->createFromTypeNames($types, $nullable, $property);
         }
+
         return null;
     }
 
@@ -62,17 +77,28 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
             throw new LogicException('Braces are not support in type');
         }
 
-        $type = \preg_replace('/^\?/', 'null|', $type);
+        $type = \preg_replace('/^\?/', self::NULL_TYPE . '|', $type);
         $types = \array_map('trim', \preg_split('/\||<[^>]+>(*SKIP)(*FAIL)/', $type));
-        if (\array_search('null', $types, true) !== false) {
+        if (\array_search(self::NULL_TYPE, $types, true) !== false) {
             $nullable = true;
-            $types = \array_values(\array_filter($types, static fn (string $type) => $type !== 'null'));
+            $types = \array_values(\array_filter($types, static fn (string $type) => $type !== self::NULL_TYPE));
         }
 
         if (! $types) {
             throw new LogicException("Unresolvable definition '${type}'");
         }
 
+        return $this->createFromTypeNames($types, $nullable, $property);
+    }
+
+    /**
+     * @param string[] $types
+     */
+    private function createFromTypeNames(
+        array $types,
+        bool $nullable,
+        ReflectionProperty $property,
+    ): VariableTypeInterface {
         if (\count($types) > 1) {
             return new UnionVariableType(
                 \array_map(fn (string $type) => $this->parseType($type, $property), $types),
@@ -82,23 +108,23 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 
         $type = $types[0];
 
-        if ($result = $this->tryIsMixed($type)) {
+        if ($result = $this->tryCreateMixed($type)) {
             return $result;
         }
-        if ($result = $this->tryIsScalar($type, $nullable)) {
+        if ($result = $this->tryCreateScalar($type, $nullable)) {
             return $result;
         }
-        if ($result = $this->tryIsArray($type, $nullable, $property)) {
+        if ($result = $this->tryCreateArray($type, $nullable, $property)) {
             return $result;
         }
-        if ($result = $this->tryIsObject($this->expandClassName($type, $property), $nullable)) {
+        if ($result = $this->tryCreateObject($this->expandClassName($type, $property), $nullable)) {
             return $result;
         }
 
         throw new LogicException(\sprintf('Unknown type "%s"', $type));
     }
 
-    private function tryIsMixed(string $type): ?VariableTypeInterface
+    private function tryCreateMixed(string $type): ?VariableTypeInterface
     {
         if ($type === 'mixed') {
             return new MixedVariableType();
@@ -106,7 +132,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         return null;
     }
 
-    private function tryIsScalar(string $type, bool $nullable): ?VariableTypeInterface
+    private function tryCreateScalar(string $type, bool $nullable): ?VariableTypeInterface
     {
         switch ($type) {
             case 'int':
@@ -123,7 +149,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         return null;
     }
 
-    private function tryIsArray(string $type, bool $nullable, ReflectionProperty $property): ?VariableTypeInterface
+    private function tryCreateArray(string $type, bool $nullable, ReflectionProperty $property): ?VariableTypeInterface
     {
         if ($type === 'array') {
             return new ArrayVariableType(null, null, $nullable);
@@ -141,7 +167,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         return null;
     }
 
-    private function tryIsObject(string $type, bool $nullable): ?VariableTypeInterface
+    private function tryCreateObject(string $type, bool $nullable): ?VariableTypeInterface
     {
         if (\class_exists($type) || \interface_exists($type)) {
             return new ClassVariableType($type, $nullable);
