@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\Basic\Psr4Fixer;
 use PhpCsFixer\Fixer\Casing\NativeFunctionCasingFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
 use PhpCsFixer\Fixer\Import\FullyQualifiedStrictTypesFixer;
@@ -15,10 +14,8 @@ use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
-use SlevomatCodingStandard\Helpers\PropertyTypeHint;
 use SlevomatCodingStandard\Sniffs\Arrays\DisallowImplicitArrayCreationSniff;
 use SlevomatCodingStandard\Sniffs\Classes\DisallowLateStaticBindingForConstantsSniff;
-use SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff;
 use SlevomatCodingStandard\Sniffs\Classes\UselessLateStaticBindingSniff;
 use SlevomatCodingStandard\Sniffs\ControlStructures\RequireNullCoalesceOperatorSniff;
 use SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff;
@@ -30,15 +27,12 @@ use SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff;
 use SlevomatCodingStandard\Sniffs\PHP\OptimizedFunctionsWithoutUnpackingSniff;
 use SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff;
 use SlevomatCodingStandard\Sniffs\PHP\UselessSemicolonSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\PropertyTypeHintSniff;
 use SlevomatCodingStandard\Sniffs\Variables\DuplicateAssignmentToVariableSniff;
-use SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff;
 use SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 use Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
-use Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 # see https://github.com/symplify/easy-coding-standard
@@ -53,10 +47,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         # pick anything from https://github.com/symplify/easy-coding-standard#use-prepared-checker-sets
         SetList::PSR_12,
         SetList::COMMON,
-        SetList::PHP_70,
-        SetList::PHP_71,
+        SetList::PHP_CS_FIXER_RISKY,
         SetList::CLEAN_CODE,
-        SetList::DEAD_CODE,
+        SetList::ARRAY,
+        SetList::STRICT,
+        SetList::SYMPLIFY,
+        SetList::CONTROL_STRUCTURES,
     ]);
 
     $parameters->set('skip', [
@@ -70,16 +66,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         StrictParamFixer::class => null,
         # breaks code
         ReferenceThrowableOnlySniff::class . '.' . ReferenceThrowableOnlySniff::CODE_REFERENCED_GENERAL_EXCEPTION => null,
-        Psr4Fixer::class => null,
         UnusedUsesSniff::class . '.' . UnusedUsesSniff::CODE_MISMATCHING_CASE => [
             __DIR__ . '/tests/*',
         ],
     ]);
 
     $services = $containerConfigurator->services();
-
-    // @todo fix
-    // $services->set(ProtectedToPrivateFixer::class);
 
     $services->set(MethodChainingIndentationFixer::class);
 
@@ -89,7 +81,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]]);
 
     # add preslash to every native function, to speedup process, e.g. \count()
-    $services->set(NativeFunctionInvocationFixer::class);
+    $services->set(NativeFunctionInvocationFixer::class)
+        ->call('configure', [[
+            'include' => [NativeFunctionInvocationFixer::SET_ALL]
+        ]]);
 
     # limit line length to 120 chars
     $services->set(LineLengthFixer::class);
@@ -111,9 +106,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     # make @param, @return and @var format united
     $services->set(ParamReturnAndVarTagMalformsFixer::class);
-
-    # spaces
-    $services->set(RemoveSpacingAroundModifierAndConstFixer::class);
 
     # use 4 spaces to indent
     $services->set(IndentationTypeFixer::class);
