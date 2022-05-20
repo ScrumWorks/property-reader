@@ -19,7 +19,6 @@ use SlevomatCodingStandard\Sniffs\Classes\DisallowLateStaticBindingForConstantsS
 use SlevomatCodingStandard\Sniffs\Classes\UselessLateStaticBindingSniff;
 use SlevomatCodingStandard\Sniffs\ControlStructures\RequireNullCoalesceOperatorSniff;
 use SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff;
-use SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff;
 use SlevomatCodingStandard\Sniffs\Functions\StaticClosureSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff;
@@ -58,12 +57,11 @@ return static function (ECSConfig $ecsConfig): void {
         'PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.Found',
 
         # resolve later with strict_types
-        DeclareStrictTypesFixer::class => null,
-        StrictComparisonFixer::class => null,
-        PhpUnitStrictFixer::class => null,
-        StrictParamFixer::class => null,
+        DeclareStrictTypesFixer::class,
+        StrictComparisonFixer::class,
+        PhpUnitStrictFixer::class,
+        StrictParamFixer::class,
         # breaks code
-        ReferenceThrowableOnlySniff::class . '.' . ReferenceThrowableOnlySniff::CODE_REFERENCED_GENERAL_EXCEPTION => null,
         UnusedUsesSniff::class . '.' . UnusedUsesSniff::CODE_MISMATCHING_CASE => [
             __DIR__ . '/tests/*',
         ],
