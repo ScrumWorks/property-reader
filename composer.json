@@ -42,5 +42,10 @@
         "phpstan" : "php -d memory_limit=2048M vendor/bin/phpstan.phar analyse --ansi --error-format symplify",
         "phpunit": "php vendor/bin/phpunit -c ./phpunit.xml",
         "test": ["@lint", "@check-cs", "@phpstan", "@phpunit"]
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false
+        }
     }
 }
