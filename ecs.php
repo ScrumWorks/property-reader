@@ -39,7 +39,6 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->paths([
         __DIR__ . '/src',
-        __DIR__ . '/tests',
     ]);
 
     $ecsConfig->sets([
@@ -87,6 +86,7 @@ return static function (ECSConfig $ecsConfig): void {
     # imports FQN names
     $ecsConfig->ruleWithConfiguration(ReferenceUsedNamesOnlySniff::class, [
         'searchAnnotations' => true,
+        'allowFullyQualifiedGlobalClasses' => true,
         'allowFullyQualifiedGlobalFunctions' => true,
         'allowFullyQualifiedGlobalConstants' => true,
         'allowPartialUses' => false,

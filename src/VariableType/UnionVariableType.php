@@ -62,8 +62,7 @@ final class UnionVariableType extends AbstractVariableType
     }
 
     /**
-     * Is union type $a subset of $b?
-     * Actually O(n^2) in worst case :/
+     * Is union type $a subset of $b? Actually O(n^2) in worst case :/
      */
     private function isSubset(self $a, self $b): bool
     {
