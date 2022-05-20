@@ -39,7 +39,7 @@ final class UnionVariableType extends AbstractVariableType
             return false;
         }
         /** @var UnionVariableType $object */
-        return $this->isSubset($this, $object) && $this->isSubset($this, $object);
+        return $this->isSubset($this, $object);
     }
 
     protected function validate(): void
