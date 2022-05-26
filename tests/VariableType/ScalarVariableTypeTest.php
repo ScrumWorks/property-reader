@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
+use PHPUnit\Framework\TestCase;
 use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
-use PHPUnit\Framework\TestCase;
 
 class ScalarVariableTypeTest extends TestCase
 {

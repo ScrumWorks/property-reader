@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableTypeUnifyService;
 
@@ -10,10 +10,7 @@ class ScalarTypeUnifyTest extends AbstractUnifyTest
     {
         $this->assertEquals(
             $this->createInteger(true),
-            $this->unify(
-                $this->createInteger(true),
-                $this->createInteger(true)
-            )
+            $this->unify($this->createInteger(true), $this->createInteger(true))
         );
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableTypeUnifyService;
 
 use ScrumWorks\PropertyReader\Exception\IncompatibleVariableTypesException;
-use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 
 class ArrayTypeUnifyTest extends AbstractUnifyTest
 {
@@ -14,10 +13,7 @@ class ArrayTypeUnifyTest extends AbstractUnifyTest
         // array + array == array
         $this->assertEquals(
             $this->createGenericArray(),
-            $this->unify(
-                $this->createGenericArray(),
-                $this->createGenericArray(),
-            )
+            $this->unify($this->createGenericArray(), $this->createGenericArray(),)
         );
     }
 
@@ -26,10 +22,7 @@ class ArrayTypeUnifyTest extends AbstractUnifyTest
         // array + int[] = int[]
         $this->assertEquals(
             $this->createSequenceArray($this->createInteger()),
-            $this->unify(
-                $this->createGenericArray(),
-                $this->createSequenceArray($this->createInteger()),
-            )
+            $this->unify($this->createGenericArray(), $this->createSequenceArray($this->createInteger()),)
         );
     }
 
@@ -49,7 +42,7 @@ class ArrayTypeUnifyTest extends AbstractUnifyTest
     {
         // array<string, string> + string[] causes exception
         $this->expectException(IncompatibleVariableTypesException::class);
-        $this->expectErrorMessage("Array must have same key type");
+        $this->expectErrorMessage('Array must have same key type');
         $this->unify(
             $this->createHashmap($this->createString(), $this->createString()),
             $this->createSequenceArray($this->createString())

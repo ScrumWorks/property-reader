@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
-use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
 use PHPUnit\Framework\TestCase;
+use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
 
 class MixedVariableTypeTest extends TestCase
 {
