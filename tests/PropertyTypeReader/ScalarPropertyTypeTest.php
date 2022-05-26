@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
+use ReflectionClass;
+
 class ScalarPropertyTypeTestClass
 {
     /** @var int */
@@ -25,11 +27,11 @@ class ScalarPropertyTypeTestClass
     public string $string;
 }
 
-class ScalarPropertyTypeTest extends AbstractPropertyTest
+final class ScalarPropertyTypeTest extends AbstractPropertyTest
 {
-    protected function createReflectionClass(): \ReflectionClass
+    protected function createReflectionClass(): ReflectionClass
     {
-        return new \ReflectionClass(ScalarPropertyTypeTestClass::class);
+        return new ReflectionClass(ScalarPropertyTypeTestClass::class);
     }
 
     public function testIntegers(): void
