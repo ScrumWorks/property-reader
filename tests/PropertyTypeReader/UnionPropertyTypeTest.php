@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
-use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
-use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
+use ReflectionClass;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 
 class UnionPropertyTypeTestClass
@@ -28,19 +27,11 @@ class UnionPropertyTypeTestClass
 
 class UnionPropertyTypeTest extends AbstractPropertyTest
 {
-    protected function createReflectionClass(): \ReflectionClass
-    {
-        return new \ReflectionClass(UnionPropertyTypeTestClass::class);
-    }
-
     public function testPhpDocUnion(): void
     {
         $this->assertPhpDocVariableType(
             'phpDocUnion',
-            new UnionVariableType([
-                $this->createInteger(),
-                $this->createString(),
-            ], false)
+            new UnionVariableType([$this->createInteger(), $this->createString()], false)
         );
     }
 
@@ -48,10 +39,7 @@ class UnionPropertyTypeTest extends AbstractPropertyTest
     {
         $this->assertPhpDocVariableType(
             'phpDocUnionNullable',
-            new UnionVariableType([
-                $this->createBoolean(),
-                $this->createFloat()
-            ], true)
+            new UnionVariableType([$this->createBoolean(), $this->createFloat()], true)
         );
     }
 
@@ -59,10 +47,7 @@ class UnionPropertyTypeTest extends AbstractPropertyTest
     {
         $this->assertPropertyTypeVariableType(
             'propertyTypeUnion',
-            new UnionVariableType([
-                $this->createString(),
-                $this->createInteger(),
-            ], false)
+            new UnionVariableType([$this->createString(), $this->createInteger()], false)
         );
     }
 
@@ -76,5 +61,9 @@ class UnionPropertyTypeTest extends AbstractPropertyTest
             ], true)
         );
     }
-}
 
+    protected function createReflectionClass(): ReflectionClass
+    {
+        return new ReflectionClass(UnionPropertyTypeTestClass::class);
+    }
+}
