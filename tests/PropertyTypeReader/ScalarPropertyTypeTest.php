@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
-use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
-
 class ScalarPropertyTypeTestClass
 {
     /** @var int */
