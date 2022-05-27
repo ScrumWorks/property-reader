@@ -65,6 +65,9 @@ return static function (ECSConfig $ecsConfig): void {
         UnusedUsesSniff::class . '.' . UnusedUsesSniff::CODE_MISMATCHING_CASE => [
             __DIR__ . '/tests/*',
         ],
+
+        // must keep original format, to test @var and property type docs
+        __DIR__ . '/tests/PropertyTypeReader/Fixture',
     ]);
 
     $ecsConfig->rule(MethodChainingIndentationFixer::class);

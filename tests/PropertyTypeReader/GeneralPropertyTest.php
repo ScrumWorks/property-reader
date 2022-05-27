@@ -6,26 +6,7 @@ namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
 use ReflectionClass;
 use ScrumWorks\PropertyReader\Exception\LogicException;
-
-class GeneralPropertyTestClass
-{
-    public $property;
-
-    /**
-     * @var int
-     */
-    public $block;
-
-    /**
-     * @var int
-     */
-    public $inlineBlock;
-
-    /**
-     * @var (int|null)[]
-     */
-    public $withBraces;
-}
+use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\GeneralPropertyTestClass;
 
 class GeneralPropertyTest extends AbstractPropertyTest
 {

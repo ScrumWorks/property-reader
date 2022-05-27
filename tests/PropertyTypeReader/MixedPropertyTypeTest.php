@@ -5,17 +5,10 @@ declare(strict_types=1);
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
 use ReflectionClass;
+use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\MixedPropertyTypeTestClass;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
 
-class MixedPropertyTypeTestClass
-{
-    /**
-     * @var mixed
-     */
-    public $mixed;
-}
-
-class MixedPropertyTypeTest extends AbstractPropertyTest
+final class MixedPropertyTypeTest extends AbstractPropertyTest
 {
     public function testMixedType(): void
     {
