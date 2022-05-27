@@ -19,7 +19,6 @@ final class ClassPropertyTypeTestClass
     public \DateTimeInterface $interface;
 
     /**
-     * @phpstan-ignore-next-line
      * @var SomeNotExistsClass
      */
     public $notExistsClass;

@@ -5,6 +5,9 @@ parameters:
         - src
         - tests
 
+    excludePaths:
+        - tests/PropertyTypeReader/Fixture
+
     # to allow installing with various phsptan versions without reporting old errors here
     reportUnmatchedIgnoredErrors: false
 

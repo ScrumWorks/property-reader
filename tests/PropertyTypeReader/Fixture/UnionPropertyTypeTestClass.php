@@ -12,7 +12,6 @@ final class UnionPropertyTypeTestClass
     public $phpDocUnion;
 
     /**
-     * @phpstan-ignore-next-line
      * @var ?bool|float
      */
     public $phpDocUnionNullable;

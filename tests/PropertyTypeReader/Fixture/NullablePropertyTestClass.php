@@ -22,7 +22,6 @@ final class NullablePropertyTestClass
     public ?int $nullableSecondVariant;
 
     /**
-     * @phpstan-ignore-next-line
      * @var ?int|null|null
      */
     public ?int $multipleNullable;
