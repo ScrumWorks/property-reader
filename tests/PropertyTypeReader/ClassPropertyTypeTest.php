@@ -6,27 +6,9 @@ namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
 use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\PropertyTypeReader;
+use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\ClassPropertyTypeTestClass;
 
-class ClassPropertyTypeTestClass
-{
-    /**
-     * @var PropertyTypeReader
-     */
-    public PropertyTypeReader $class;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    public \DateTimeInterface $interface;
-
-    /**
-     * @phpstan-ignore-next-line
-     * @var SomeNotExistsClass
-     */
-    public $notExistsClass;
-}
-
-class ClassPropertyTypeTest extends AbstractPropertyTest
+final class ClassPropertyTypeTest extends AbstractPropertyTest
 {
     protected function createReflectionClass(): \ReflectionClass
     {
@@ -65,4 +47,3 @@ class ClassPropertyTypeTest extends AbstractPropertyTest
         $this->readFromPhpDoc($property);
     }
 }
-

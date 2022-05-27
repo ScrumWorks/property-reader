@@ -4,29 +4,10 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
-use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
-use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
+use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\UnionPropertyTypeTestClass;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 
-class UnionPropertyTypeTestClass
-{
-    /**
-     * @var int|string
-     */
-    public $phpDocUnion;
-
-    /**
-     * @phpstan-ignore-next-line
-     * @var ?bool|float
-     */
-    public $phpDocUnionNullable;
-
-    public int|string $propertyTypeUnion;
-
-    public bool|UnionPropertyTypeTestClass|null $propertyTypeUnionNullable;
-}
-
-class UnionPropertyTypeTest extends AbstractPropertyTest
+final class UnionPropertyTypeTest extends AbstractPropertyTest
 {
     protected function createReflectionClass(): \ReflectionClass
     {

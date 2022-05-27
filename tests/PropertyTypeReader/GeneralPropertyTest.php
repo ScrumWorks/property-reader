@@ -5,27 +5,9 @@ declare(strict_types = 1);
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
 use ScrumWorks\PropertyReader\Exception\LogicException;
-use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
+use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\GeneralPropertyTestClass;
 
-class GeneralPropertyTestClass
-{
-    public $property;
-
-    /**
-     * @var int
-     */
-    public $block;
-
-    /** @var int */
-    public $inlineBlock;
-
-    /**
-     * @var (int|null)[]
-     */
-    public $withBraces;
-}
-
-class GeneralPropertyTest extends AbstractPropertyTest
+final class GeneralPropertyTest extends AbstractPropertyTest
 {
     protected function createReflectionClass(): \ReflectionClass
     {

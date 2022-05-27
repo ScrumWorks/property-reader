@@ -4,38 +4,10 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
-use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
-use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
+use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\ArrayPropertyTypeTestClass;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 
-class ArrayPropertyTypeTestClass
-{
-    /** @var int[] */
-    public array $array;
-
-    /** @var array<int> */
-    public array $arrayAlternative;
-
-    /** @var array */
-    public array $genericArray;
-
-    /** @var int[][] */
-    public array $nestedArray;
-
-    /** @var array<array<int>> */
-    public array $nestedArrayAlternative;
-
-    /** @var array<string, string> */
-    public array $hashmap;
-
-    /** @var array<string, array<int, string>> */
-    public array $nestedHashmap;
-
-    /** @var array<int|string, ?int[][]> */
-    public array $complicatedArray;
-}
-
-class ArrayPropertyTypeTest extends AbstractPropertyTest
+final class ArrayPropertyTypeTest extends AbstractPropertyTest
 {
     protected function createReflectionClass(): \ReflectionClass
     {

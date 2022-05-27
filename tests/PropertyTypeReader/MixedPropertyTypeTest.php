@@ -4,18 +4,10 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
+use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\MixedPropertyTypeTestClass;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
-use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 
-class MixedPropertyTypeTestClass
-{
-    /**
-     * @var mixed
-     */
-    public $mixed;
-}
-
-class MixedPropertyTypeTest extends AbstractPropertyTest
+final class MixedPropertyTypeTest extends AbstractPropertyTest
 {
     protected function createReflectionClass(): \ReflectionClass
     {
@@ -28,4 +20,3 @@ class MixedPropertyTypeTest extends AbstractPropertyTest
         $this->assertPhpDocVariableType('mixed', new MixedVariableType());
     }
 }
-
