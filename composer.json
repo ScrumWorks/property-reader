@@ -19,7 +19,7 @@
         "phpunit/phpunit": "^9.5",
         "php-parallel-lint/php-parallel-lint": "^1.2",
         "phpstan/phpstan": "^0.12",
-        "symplify/easy-coding-standard": "^9.0",
+        "symplify/easy-coding-standard": "^10.2",
         "symplify/easy-testing": "^9.0",
         "symplify/easy-ci": "^9.0",
         "symplify/phpstan-extensions": "^9.0",
