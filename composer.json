@@ -40,7 +40,7 @@
         "fix-cs": "php vendor/bin/ecs check --fix --ansi",
         "lint" : "php vendor/bin/parallel-lint src tests",
         "phpstan" : "php -d memory_limit=2048M vendor/bin/phpstan.phar analyse --ansi --error-format symplify",
-        "phpunit": "php vendor/bin/phpunit -c ./phpunit.xml",
+        "phpunit": "vendor/bin/phpunit",
         "test": ["@lint", "@check-cs", "@phpstan", "@phpunit"]
     }
 }
