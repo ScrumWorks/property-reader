@@ -9,8 +9,9 @@ use Stringable;
 /*, Stringable - after PHp8.0*/
 abstract class AbstractVariableType implements VariableTypeInterface, Stringable
 {
-    public function __construct(protected bool $nullable)
-    {
+    public function __construct(
+        protected bool $nullable
+    ) {
         $this->validate();
     }
 

@@ -108,7 +108,7 @@ class ArrayVariableTypeTest extends TestCase
         );
     }
 
-    public function testIsGenericArray()
+    public function testIsGenericArray(): void
     {
         $array = new ArrayVariableType(null, null, false);
         $this->assertTrue(
@@ -116,7 +116,7 @@ class ArrayVariableTypeTest extends TestCase
         );
     }
 
-    public function testIsSequenceArray()
+    public function testIsSequenceArray(): void
     {
         $array = new ArrayVariableType(null, $this->createInteger(false), false);
         $this->assertTrue(
@@ -124,7 +124,7 @@ class ArrayVariableTypeTest extends TestCase
         );
     }
 
-    public function testIsHashmap()
+    public function testIsHashmap(): void
     {
         $array = new ArrayVariableType($this->createString(false), $this->createInteger(false), false);
         $this->assertTrue(
