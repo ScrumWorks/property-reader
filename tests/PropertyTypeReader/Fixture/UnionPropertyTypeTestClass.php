@@ -18,5 +18,5 @@ final class UnionPropertyTypeTestClass
 
     public int|string $propertyTypeUnion;
 
-    public bool|UnionPropertyTypeTestClass|null $propertyTypeUnionNullable;
+    public bool|UnionPropertyTypeTestClass|null $propertyTypeUnionNullable = null;
 }
