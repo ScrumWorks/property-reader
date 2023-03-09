@@ -52,7 +52,7 @@ final class VariableTypeWriter
                 return '';
             }
             return ($variableType->isNullable() ? '?' : '') . \implode('|', \array_map(
-                fn (VariableTypeInterface $_) => $this->variableTypeToString($_, $phpCompatible),
+                fn (VariableTypeInterface $_): string => $this->variableTypeToString($_, $phpCompatible),
                 $variableType->getTypes()
             ));
         }
