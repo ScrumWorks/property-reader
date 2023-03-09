@@ -32,10 +32,7 @@ abstract class AbstractVariableType implements VariableTypeInterface, Stringable
         if (static::class !== $object::class) {
             return false;
         }
-        if ($this->isNullable() !== $object->isNullable()) {
-            return false;
-        }
-        return true;
+        return $this->isNullable() === $object->isNullable();
     }
 
     public static function objectEquals(?VariableTypeInterface $a, ?VariableTypeInterface $b): bool
