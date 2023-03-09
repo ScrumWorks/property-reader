@@ -77,12 +77,12 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 
         $type = \preg_replace('/^\?/', self::NULL_TYPE . '|', $type);
         $types = \array_map('trim', \preg_split('/\||<[^>]+>(*SKIP)(*FAIL)/', $type));
-        if (\array_search(self::NULL_TYPE, $types, true) !== false) {
+        if (\in_array(self::NULL_TYPE, $types, true)) {
             $nullable = true;
             $types = \array_values(\array_filter($types, static fn (string $type): bool => $type !== self::NULL_TYPE));
         }
 
-        if (! $types) {
+        if ($types === []) {
             throw new LogicException("Unresolvable definition '{$type}'");
         }
 
@@ -106,16 +106,16 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 
         $type = $types[0];
 
-        if ($result = $this->tryCreateMixed($type)) {
+        if (($result = $this->tryCreateMixed($type)) !== null) {
             return $result;
         }
-        if ($result = $this->tryCreateScalar($type, $nullable)) {
+        if (($result = $this->tryCreateScalar($type, $nullable)) !== null) {
             return $result;
         }
-        if ($result = $this->tryCreateArray($type, $nullable, $property)) {
+        if (($result = $this->tryCreateArray($type, $nullable, $property)) !== null) {
             return $result;
         }
-        if ($result = $this->tryCreateObject($this->expandClassName($type, $property), $nullable)) {
+        if (($result = $this->tryCreateObject($this->expandClassName($type, $property), $nullable)) !== null) {
             return $result;
         }
 
@@ -183,7 +183,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         }
         $re = '#[\s*]@' . \preg_quote($name, '#') . '(?=\s|$)(?:[ \t]+([^@\s].*))?#';
         if ($ref->getDocComment() && \preg_match($re, \trim($ref->getDocComment(), '/*'), $m)) {
-            return $m[1] ? \trim($m[1]) : '';
+            return $m[1] !== '' && $m[1] !== '0' ? \trim($m[1]) : '';
         }
         return null;
     }
