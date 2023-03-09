@@ -16,12 +16,10 @@ final class ScalarVariableType extends AbstractVariableType
 
     public const TYPE_STRING = 'STRING';
 
-    protected string $type;
-
-    public function __construct(string $type, bool $nullable)
-    {
-        $this->type = $type;
-
+    public function __construct(
+        protected string $type,
+        bool $nullable
+    ) {
         parent::__construct($nullable);
     }
 

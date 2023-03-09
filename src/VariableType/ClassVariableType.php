@@ -8,12 +8,10 @@ use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 
 final class ClassVariableType extends AbstractVariableType
 {
-    protected string $class;
-
-    public function __construct(string $class, bool $nullable)
-    {
-        $this->class = $class;
-
+    public function __construct(
+        protected string $class,
+        bool $nullable
+    ) {
         parent::__construct($nullable);
     }
 

@@ -8,15 +8,13 @@ use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 
 final class UnionVariableType extends AbstractVariableType
 {
-    protected array $types;
-
     /**
      * @param VariableTypeInterface[] $types
      */
-    public function __construct(array $types, bool $nullable)
-    {
-        $this->types = $types;
-
+    public function __construct(
+        protected array $types,
+        bool $nullable
+    ) {
         parent::__construct($nullable);
     }
 
@@ -54,7 +52,7 @@ final class UnionVariableType extends AbstractVariableType
             if (! ($type instanceof VariableTypeInterface)) {
                 throw new InvalidArgumentException(\sprintf(
                     "Given type '%s' doesn't implements %s interface",
-                    \is_object($type) ? \get_class($type) : \gettype($type),
+                    \get_debug_type($type),
                     VariableTypeInterface::class
                 ));
             }
