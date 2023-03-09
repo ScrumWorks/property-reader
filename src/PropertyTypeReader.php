@@ -85,7 +85,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         }
 
         if (! $types) {
-            throw new LogicException("Unresolvable definition '${type}'");
+            throw new LogicException("Unresolvable definition '{$type}'");
         }
 
         return $this->createFromTypeNames($types, $nullable, $property);

@@ -13,6 +13,7 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
+use PhpCsFixer\Fixer\StringNotation\SimpleToComplexStringVariableFixer;
 use PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use SlevomatCodingStandard\Sniffs\Arrays\DisallowImplicitArrayCreationSniff;
@@ -23,7 +24,6 @@ use SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff;
 use SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff;
 use SlevomatCodingStandard\Sniffs\Functions\StaticClosureSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
-use SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff;
 use SlevomatCodingStandard\Sniffs\PHP\OptimizedFunctionsWithoutUnpackingSniff;
 use SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff;
@@ -41,6 +41,7 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->paths([
         __DIR__ . '/src',
+        __DIR__ . '/ecs.php',
         // @todo add /tests
     ]);
 
@@ -142,4 +143,6 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->rule(StaticClosureSniff::class);
 
     $ecsConfig->rule(DisallowImplicitArrayCreationSniff::class);
+
+    $ecsConfig->rule(SimpleToComplexStringVariableFixer::class);
 };
