@@ -40,11 +40,11 @@ final class VariableTypeWriter
                 ) . '[]';
             }
             return \sprintf(
-                    '%sarray<%s, %s>',
-                    $variableType->isNullable() ? '?' : '',
-                    $this->variableTypeToString($variableType->getKeyType()),
-                    $this->variableTypeToString($variableType->getItemType())
-                );
+                '%sarray<%s, %s>',
+                $variableType->isNullable() ? '?' : '',
+                $this->variableTypeToString($variableType->getKeyType()),
+                $this->variableTypeToString($variableType->getItemType())
+            );
         } elseif ($variableType instanceof ClassVariableType) {
             return ($variableType->isNullable() ? '?' : '') . $variableType->getClass();
         } elseif ($variableType instanceof UnionVariableType) {

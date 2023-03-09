@@ -1,73 +1,29 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
-use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
-use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
+use ReflectionClass;
+use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\ArrayPropertyTypeTestClass;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
-
-class ArrayPropertyTypeTestClass
-{
-    /** @var int[] */
-    public array $array;
-
-    /** @var array<int> */
-    public array $arrayAlternative;
-
-    /** @var array */
-    public array $genericArray;
-
-    /** @var int[][] */
-    public array $nestedArray;
-
-    /** @var array<array<int>> */
-    public array $nestedArrayAlternative;
-
-    /** @var array<string, string> */
-    public array $hashmap;
-
-    /** @var array<string, array<int, string>> */
-    public array $nestedHashmap;
-
-    /** @var array<int|string, ?int[][]> */
-    public array $complicatedArray;
-}
 
 class ArrayPropertyTypeTest extends AbstractPropertyTest
 {
-    protected function createReflectionClass(): \ReflectionClass
-    {
-        return new \ReflectionClass(ArrayPropertyTypeTestClass::class);
-    }
-
     public function testSequenceArray(): void
     {
         // normal array definition (type[])
-        $this->assertPropertyTypeVariableType(
-            'array',
-            $this->createGenericArray()
-        );
-        $this->assertPhpDocVariableType(
-            'array',
-            $this->createSequenceArray($this->createInteger())
-        );
+        $this->assertPropertyTypeVariableType('array', $this->createGenericArray());
+        $this->assertPhpDocVariableType('array', $this->createSequenceArray($this->createInteger()));
 
         // array alternative syntax (array<type>)
-        $this->assertPhpDocVariableType(
-            'arrayAlternative',
-            $this->createSequenceArray($this->createInteger())
-        );
+        $this->assertPhpDocVariableType('arrayAlternative', $this->createSequenceArray($this->createInteger()));
     }
 
     public function testGenericArray(): void
     {
         // generic array syntax (array)
-        $this->assertPhpDocVariableType(
-            'genericArray',
-            $this->createGenericArray()
-        );
+        $this->assertPhpDocVariableType('genericArray', $this->createGenericArray());
     }
 
     public function testNestedArray(): void
@@ -75,21 +31,13 @@ class ArrayPropertyTypeTest extends AbstractPropertyTest
         // nested array (aka int[][])
         $this->assertPhpDocVariableType(
             'nestedArray',
-            $this->createSequenceArray(
-                $this->createSequenceArray(
-                    $this->createInteger()
-                )
-            )
+            $this->createSequenceArray($this->createSequenceArray($this->createInteger()))
         );
 
         // nested array alternative syntax (aka array<array<int>>)
         $this->assertPhpDocVariableType(
             'nestedArrayAlternative',
-            $this->createSequenceArray(
-                $this->createSequenceArray(
-                    $this->createInteger()
-                )
-            )
+            $this->createSequenceArray($this->createSequenceArray($this->createInteger()))
         );
     }
 
@@ -98,10 +46,7 @@ class ArrayPropertyTypeTest extends AbstractPropertyTest
         // hashmap (aka array<string, string>)
         $this->assertPhpDocVariableType(
             'hashmap',
-            $this->createHashmap(
-                $this->createString(),
-                $this->createString()
-            )
+            $this->createHashmap($this->createString(), $this->createString())
         );
     }
 
@@ -112,10 +57,7 @@ class ArrayPropertyTypeTest extends AbstractPropertyTest
             'nestedHashmap',
             $this->createHashmap(
                 $this->createString(),
-                $this->createHashmap(
-                    $this->createInteger(),
-                    $this->createString()
-                )
+                $this->createHashmap($this->createInteger(), $this->createString())
             )
         );
     }
@@ -126,18 +68,14 @@ class ArrayPropertyTypeTest extends AbstractPropertyTest
         $this->assertPhpDocVariableType(
             'complicatedArray',
             $this->createHashmap(
-                new UnionVariableType([
-                    $this->createInteger(),
-                    $this->createString()
-                ], false),
-                $this->createSequenceArray(
-                    $this->createSequenceArray(
-                        $this->createInteger()
-                    ),
-                    true
-                )
+                new UnionVariableType([$this->createInteger(), $this->createString()], false),
+                $this->createSequenceArray($this->createSequenceArray($this->createInteger()), true)
             )
         );
     }
-}
 
+    protected function createReflectionClass(): ReflectionClass
+    {
+        return new ReflectionClass(ArrayPropertyTypeTestClass::class);
+    }
+}

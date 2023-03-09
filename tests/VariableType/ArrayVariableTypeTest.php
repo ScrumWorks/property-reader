@@ -1,16 +1,16 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
+use PHPUnit\Framework\TestCase;
 use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
-use PHPUnit\Framework\TestCase;
 
 class ArrayVariableTypeTest extends TestCase
 {
@@ -111,29 +111,21 @@ class ArrayVariableTypeTest extends TestCase
     public function testIsGenericArray()
     {
         $array = new ArrayVariableType(null, null, false);
-        $this->assertTrue(
-            $array->isGenericArray()
-        );
+        $this->assertTrue($array->isGenericArray());
     }
 
     public function testIsSequenceArray()
     {
         $array = new ArrayVariableType(null, $this->createInteger(false), false);
-        $this->assertTrue(
-            $array->isSequenceArray()
-        );
+        $this->assertTrue($array->isSequenceArray());
     }
 
     public function testIsHashmap()
     {
         $array = new ArrayVariableType($this->createString(false), $this->createInteger(false), false);
-        $this->assertTrue(
-            $array->isHashmap()
-        );
+        $this->assertTrue($array->isHashmap());
 
         $array = new ArrayVariableType($this->createString(false), null, false);
-        $this->assertTrue(
-            $array->isHashmap()
-        );
+        $this->assertTrue($array->isHashmap());
     }
 }

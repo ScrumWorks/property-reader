@@ -1,14 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
+use DateTimeInterface;
+use PHPUnit\Framework\TestCase;
 use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
-use PHPUnit\Framework\TestCase;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
 
 class ClassVariableTypeTest extends TestCase
@@ -17,8 +18,8 @@ class ClassVariableTypeTest extends TestCase
 
     public function testValidClass(): void
     {
-        $classVariableType = new ClassVariableType(ClassVariableTypeTest::class, true);
-        $this->assertEquals(ClassVariableTypeTest::class, $classVariableType->getClass());
+        $classVariableType = new ClassVariableType(self::class, true);
+        $this->assertEquals(self::class, $classVariableType->getClass());
     }
 
     public function testInvalidClass(): void
@@ -30,8 +31,18 @@ class ClassVariableTypeTest extends TestCase
 
     public function testEquals(): void
     {
-        $this->assertTrue($this->variableTypeEquals(new ClassVariableType(ArrayVariableType::class, false), new ClassVariableType(ArrayVariableType::class, false)));
-        $this->assertFalse($this->variableTypeEquals(new ClassVariableType(ArrayVariableType::class, false), new ClassVariableType(MixedVariableType::class, false)));
+        $this->assertTrue(
+            $this->variableTypeEquals(new ClassVariableType(ArrayVariableType::class, false), new ClassVariableType(
+                ArrayVariableType::class,
+                false
+            ))
+        );
+        $this->assertFalse(
+            $this->variableTypeEquals(new ClassVariableType(ArrayVariableType::class, false), new ClassVariableType(
+                MixedVariableType::class,
+                false
+            ))
+        );
     }
 
     public function testIsClass(): void
@@ -42,7 +53,7 @@ class ClassVariableTypeTest extends TestCase
 
     public function testIsInterface(): void
     {
-        $this->assertTrue((new ClassVariableType(\DateTimeInterface::class, false))->isInterface());
-        $this->assertFalse((new ClassVariableType(\DateTimeInterface::class, false))->isClass());
+        $this->assertTrue((new ClassVariableType(DateTimeInterface::class, false))->isInterface());
+        $this->assertFalse((new ClassVariableType(DateTimeInterface::class, false))->isClass());
     }
 }

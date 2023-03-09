@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
+use PHPUnit\Framework\TestCase;
 use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
-use PHPUnit\Framework\TestCase;
 
 class UnionVariableTypeTest extends TestCase
 {
@@ -18,14 +18,16 @@ class UnionVariableTypeTest extends TestCase
     public function testMinimumInputTypes(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Union must have minimal two types, 0 given");
+        $this->expectErrorMessage('Union must have minimal two types, 0 given');
         new UnionVariableType([], false);
     }
 
     public function testInputTypesMustBeVariableTypeInterface(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Given type 'integer' doesn't implements ScrumWorks\PropertyReader\VariableType\VariableTypeInterface");
+        $this->expectErrorMessage(
+            "Given type 'integer' doesn't implements ScrumWorks\PropertyReader\VariableType\VariableTypeInterface"
+        );
         // @phpstan-ignore-next-line
         new UnionVariableType([1, new MixedVariableType()], false);
     }
@@ -53,10 +55,7 @@ class UnionVariableTypeTest extends TestCase
                     $this->createInteger(true),
                     $this->createInteger(false),
                 ], true),
-                new UnionVariableType([
-                    $this->createInteger(false),
-                    $this->createInteger(true),
-                ], true)
+                new UnionVariableType([$this->createInteger(false), $this->createInteger(true)], true)
             )
         );
         $this->assertFalse(
@@ -66,10 +65,7 @@ class UnionVariableTypeTest extends TestCase
                     $this->createInteger(true),
                     $this->createInteger(false),
                 ], true),
-                new UnionVariableType([
-                    $this->createInteger(true),
-                    $this->createInteger(false),
-                ], true)
+                new UnionVariableType([$this->createInteger(true), $this->createInteger(false)], true)
             )
         );
     }

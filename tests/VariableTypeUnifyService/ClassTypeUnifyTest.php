@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableTypeUnifyService;
 
@@ -14,24 +14,18 @@ class ClassTypeUnifyTest extends AbstractUnifyTest
     {
         $this->assertEquals(
             $this->createClass(ArrayVariableType::class),
-            $this->unify(
-                $this->createClass(ArrayVariableType::class),
-                $this->createClass(ArrayVariableType::class)
-            )
+            $this->unify($this->createClass(ArrayVariableType::class), $this->createClass(ArrayVariableType::class))
         );
     }
 
     public function testDifferentClasses(): void
     {
         $this->expectException(IncompatibleVariableTypesException::class);
-        $this->expectErrorMessage(sprintf(
+        $this->expectErrorMessage(\sprintf(
             "Can't merge %s and %s classes",
             ArrayVariableType::class,
             ScalarVariableType::class
         ));
-        $this->unify(
-            $this->createClass(ArrayVariableType::class),
-            $this->createClass(ScalarVariableType::class)
-        );
+        $this->unify($this->createClass(ArrayVariableType::class), $this->createClass(ScalarVariableType::class));
     }
 }

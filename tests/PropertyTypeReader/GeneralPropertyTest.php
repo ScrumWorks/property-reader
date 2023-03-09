@@ -1,37 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
+use ReflectionClass;
 use ScrumWorks\PropertyReader\Exception\LogicException;
-use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
-
-class GeneralPropertyTestClass
-{
-    public $property;
-
-    /**
-     * @var int
-     */
-    public $block;
-
-    /** @var int */
-    public $inlineBlock;
-
-    /**
-     * @var (int|null)[]
-     */
-    public $withBraces;
-}
+use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\GeneralPropertyTestClass;
 
 class GeneralPropertyTest extends AbstractPropertyTest
 {
-    protected function createReflectionClass(): \ReflectionClass
-    {
-        return new \ReflectionClass(GeneralPropertyTestClass::class);
-    }
-
     public function testEmptyDefinition(): void
     {
         $this->assertPropertyTypeVariableType('property', null);
@@ -52,5 +30,10 @@ class GeneralPropertyTest extends AbstractPropertyTest
         $this->expectException(LogicException::class);
         $this->expectErrorMessage('Braces are not support in type');
         $this->readFromPhpDoc($property);
+    }
+
+    protected function createReflectionClass(): ReflectionClass
+    {
+        return new ReflectionClass(GeneralPropertyTestClass::class);
     }
 }

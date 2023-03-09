@@ -1,8 +1,9 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableTypeUnifyService;
+
 use PHPUnit\Framework\TestCase;
 use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
@@ -14,7 +15,7 @@ abstract class AbstractUnifyTest extends TestCase
 
     private VariableTypeUnifyService $variableTypeUnifyService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->variableTypeUnifyService = new VariableTypeUnifyService();
     }

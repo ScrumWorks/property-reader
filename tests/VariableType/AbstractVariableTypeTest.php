@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableType;
 
-use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use PHPUnit\Framework\TestCase;
+use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 
 class AbstractVariableTypeTest extends TestCase
 {
@@ -18,17 +18,12 @@ class AbstractVariableTypeTest extends TestCase
 
         // `equals` is symmetric
         $this->assertFalse($this->variableTypeEquals(null, $this->createInteger(true)));
-        $this->assertFalse($this->variableTypeEquals($this->createInteger(true),null));
+        $this->assertFalse($this->variableTypeEquals($this->createInteger(true), null));
 
         // nullable must have same values
         $this->assertFalse($this->variableTypeEquals($this->createInteger(true), $this->createInteger(false)));
 
         // objects must have same type
-        $this->assertFalse(
-            $this->variableTypeEquals(
-                $this->createInteger(true),
-                $this->createMixed()
-            )
-        );
+        $this->assertFalse($this->variableTypeEquals($this->createInteger(true), $this->createMixed()));
     }
 }
