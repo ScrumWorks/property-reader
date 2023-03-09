@@ -7,9 +7,9 @@ use PhpCsFixer\Fixer\Casing\NativeFunctionCasingFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
 use PhpCsFixer\Fixer\Import\FullyQualifiedStrictTypesFixer;
 use PhpCsFixer\Fixer\Import\GlobalNamespaceImportFixer;
-use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
@@ -68,9 +68,7 @@ return static function (ECSConfig $ecsConfig): void {
         # breaks code
         ReferenceThrowableOnlySniff::class . '.' . ReferenceThrowableOnlySniff::CODE_REFERENCED_GENERAL_EXCEPTION,
 
-        DocBlockLineLengthFixer::class => [
-            __DIR__ . '/src/VariableType/UnionVariableType.php',
-        ],
+        DocBlockLineLengthFixer::class => [__DIR__ . '/src/VariableType/UnionVariableType.php'],
 
         AssignmentInConditionSniff::class,
     ]);
@@ -78,12 +76,12 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->rule(MethodChainingIndentationFixer::class);
 
     $ecsConfig->ruleWithConfiguration(GeneralPhpdocAnnotationRemoveFixer::class, [
-        'annotations' => ['author', 'package', 'group', 'autor', 'covers']
+        'annotations' => ['author', 'package', 'group', 'autor', 'covers'],
     ]);
 
     # add preslash to every native function, to speedup process, e.g. \count()
     $ecsConfig->ruleWithConfiguration(NativeFunctionInvocationFixer::class, [
-        'include' => [NativeFunctionInvocationFixer::SET_ALL]
+        'include' => [NativeFunctionInvocationFixer::SET_ALL],
     ]);
 
     # limit line length to 120 chars
