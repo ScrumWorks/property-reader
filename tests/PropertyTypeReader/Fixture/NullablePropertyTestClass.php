@@ -14,17 +14,17 @@ final class NullablePropertyTestClass
     /**
      * @var ?int
      */
-    public ?int $nullable;
+    public ?int $nullable = null;
 
     /**
      * @var int|null
      */
-    public ?int $nullableSecondVariant;
+    public ?int $nullableSecondVariant = null;
 
     /**
      * @var ?int|null|null
      */
-    public ?int $multipleNullable;
+    public ?int $multipleNullable = null;
 
     /**
      * @var null
