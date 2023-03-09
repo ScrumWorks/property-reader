@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace ScrumWorks\PropertyReader\VariableType;
 
-/*, Stringable - after PHp8.0*/
-abstract class AbstractVariableType implements VariableTypeInterface
-{
-    protected bool $nullable;
+use Stringable;
 
-    public function __construct(bool $nullable)
+/*, Stringable - after PHp8.0*/
+abstract class AbstractVariableType implements VariableTypeInterface, Stringable
+{
+    public function __construct(protected bool $nullable)
     {
-        $this->nullable = $nullable;
         $this->validate();
     }
 
@@ -29,7 +28,7 @@ abstract class AbstractVariableType implements VariableTypeInterface
 
     public function equals(VariableTypeInterface $object): bool
     {
-        if (static::class !== \get_class($object)) {
+        if (static::class !== $object::class) {
             return false;
         }
         if ($this->isNullable() !== $object->isNullable()) {

@@ -22,11 +22,8 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 {
     private const NULL_TYPE = 'null';
 
-    private VariableTypeUnifyServiceInterface $variableTypeUnifyService;
-
-    public function __construct(VariableTypeUnifyServiceInterface $variableTypeUnifyService)
+    public function __construct(private VariableTypeUnifyServiceInterface $variableTypeUnifyService)
     {
-        $this->variableTypeUnifyService = $variableTypeUnifyService;
     }
 
     public function readUnifiedVariableType(ReflectionProperty $property): ?VariableTypeInterface
@@ -73,7 +70,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
     {
         $nullable = false;
 
-        if (\strpos($type, '(') !== false || \strpos($type, ')') !== false) {
+        if (str_contains($type, '(') || str_contains($type, ')')) {
             throw new LogicException('Braces are not support in type');
         }
 
@@ -134,19 +131,13 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 
     private function tryCreateScalar(string $type, bool $nullable): ?VariableTypeInterface
     {
-        switch ($type) {
-            case 'int':
-            case 'integer':
-                return new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, $nullable);
-            case 'float':
-                return new ScalarVariableType(ScalarVariableType::TYPE_FLOAT, $nullable);
-            case 'bool':
-            case 'boolean':
-                return new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, $nullable);
-            case 'string':
-                return new ScalarVariableType(ScalarVariableType::TYPE_STRING, $nullable);
-        }
-        return null;
+        return match ($type) {
+            'int', 'integer' => new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, $nullable),
+            'float' => new ScalarVariableType(ScalarVariableType::TYPE_FLOAT, $nullable),
+            'bool', 'boolean' => new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, $nullable),
+            'string' => new ScalarVariableType(ScalarVariableType::TYPE_STRING, $nullable),
+            default => null
+        };
     }
 
     private function tryCreateArray(string $type, bool $nullable, ReflectionProperty $property): ?VariableTypeInterface
@@ -154,7 +145,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         if ($type === 'array') {
             return new ArrayVariableType(null, null, $nullable);
         }
-        if (\substr($type, -2) === '[]') {
+        if (str_ends_with($type, '[]')) {
             $itemType = $this->parseType(\substr($type, 0, -2), $property);
             return new ArrayVariableType(null, $itemType, $nullable);
         }

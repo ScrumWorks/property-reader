@@ -36,7 +36,7 @@ abstract class AbstractPropertyTest extends TestCase
     {
         try {
             return $this->reflection->getProperty($propertyName);
-        } catch (\ReflectionException $e) {
+        } catch (\ReflectionException) {
             $this->fail(sprintf(
                 "Expected property '%s' not exists on class %s",
                 $propertyName,

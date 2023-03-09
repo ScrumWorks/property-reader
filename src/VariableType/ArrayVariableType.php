@@ -8,15 +8,11 @@ use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
 
 final class ArrayVariableType extends AbstractVariableType
 {
-    protected ?VariableTypeInterface $keyType;
-
-    protected ?VariableTypeInterface $itemType;
-
-    public function __construct(?VariableTypeInterface $keyType, ?VariableTypeInterface $itemType, bool $nullable)
-    {
-        $this->keyType = $keyType;
-        $this->itemType = $itemType;
-
+    public function __construct(
+        protected ?VariableTypeInterface $keyType,
+        protected ?VariableTypeInterface $itemType,
+        bool $nullable
+    ) {
         parent::__construct($nullable);
     }
 
