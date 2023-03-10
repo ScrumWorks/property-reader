@@ -28,6 +28,10 @@ jobs:
                         name: 'Tests'
                         run: vendor/bin/phpunit
 
+                    -
+                        name: 'Rector'
+                        run: vendor/bin/rector process src tests --dry-run --no-progress-bar
+
         name: ${{ matrix.actions.name }}
 
         runs-on: ubuntu-latest
