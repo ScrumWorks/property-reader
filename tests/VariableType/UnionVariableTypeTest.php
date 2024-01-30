@@ -18,14 +18,14 @@ class UnionVariableTypeTest extends TestCase
     public function testMinimumInputTypes(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Union must have minimal two types, 0 given");
+        $this->expectExceptionMessage("Union must have minimal two types, 0 given");
         new UnionVariableType([], false);
     }
 
     public function testInputTypesMustBeVariableTypeInterface(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Given type 'int' doesn't implements ScrumWorks\PropertyReader\VariableType\VariableTypeInterface");
+        $this->expectExceptionMessage("Given type 'int' doesn't implements ScrumWorks\PropertyReader\VariableType\VariableTypeInterface");
         // @phpstan-ignore-next-line
         new UnionVariableType([1, new MixedVariableType()], false);
     }

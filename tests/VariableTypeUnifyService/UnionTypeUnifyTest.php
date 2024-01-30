@@ -7,7 +7,7 @@ namespace ScrumWorks\PropertyReader\Tests\VariableTypeUnifyService;
 use ScrumWorks\PropertyReader\Exception\DomainException;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 
-class UnionTypeUnifyTest extends AbstractUnifyTest
+class UnionTypeUnifyTest extends AbstractUnifyTestCase
 {
     public function testSameUnions(): void
     {
@@ -50,7 +50,7 @@ class UnionTypeUnifyTest extends AbstractUnifyTest
     public function testIncompatibleUnions(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectErrorMessage("Can't merge this union types (@TODO)");
+        $this->expectExceptionMessage("Can't merge this union types (@TODO)");
         $this->unify(
             new UnionVariableType([
                 $this->createInteger(true),

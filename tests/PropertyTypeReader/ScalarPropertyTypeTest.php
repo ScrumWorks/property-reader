@@ -6,7 +6,7 @@ namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 
 use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\ScalarPropertyTypeTestClass;
 
-final class ScalarPropertyTypeTest extends AbstractPropertyTest
+final class ScalarPropertyTypeTest extends AbstractPropertyTestCase
 {
     protected function createReflectionClass(): \ReflectionClass
     {

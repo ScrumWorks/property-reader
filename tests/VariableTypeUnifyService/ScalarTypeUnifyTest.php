@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ScrumWorks\PropertyReader\Tests\VariableTypeUnifyService;
 
-class ScalarTypeUnifyTest extends AbstractUnifyTest
+class ScalarTypeUnifyTest extends AbstractUnifyTestCase
 {
     public function testMixed(): void
     {
