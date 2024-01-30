@@ -24,7 +24,7 @@ class ClassVariableTypeTest extends TestCase
     public function testInvalidClass(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Unknown class/interface 'some-not-existing-class' given");
+        $this->expectExceptionMessage("Unknown class/interface 'some-not-existing-class' given");
         new ClassVariableType('some-not-existing-class', true);
     }
 

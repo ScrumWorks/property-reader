@@ -7,7 +7,7 @@ namespace ScrumWorks\PropertyReader\Tests\VariableTypeUnifyService;
 use ScrumWorks\PropertyReader\Exception\IncompatibleVariableTypesException;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 
-class ArrayTypeUnifyTest extends AbstractUnifyTest
+class ArrayTypeUnifyTest extends AbstractUnifyTestCase
 {
     public function testGenericPlusGeneric(): void
     {
@@ -49,7 +49,7 @@ class ArrayTypeUnifyTest extends AbstractUnifyTest
     {
         // array<string, string> + string[] causes exception
         $this->expectException(IncompatibleVariableTypesException::class);
-        $this->expectErrorMessage("Array must have same key type");
+        $this->expectExceptionMessage("Array must have same key type");
         $this->unify(
             $this->createHashmap($this->createString(), $this->createString()),
             $this->createSequenceArray($this->createString())
@@ -60,7 +60,7 @@ class ArrayTypeUnifyTest extends AbstractUnifyTest
     {
         // mixed[] + int[] causes exception
         $this->expectException(IncompatibleVariableTypesException::class);
-        $this->expectErrorMessage("Incompatible types 'MIXED' and 'SCALAR[INTEGER]'");
+        $this->expectExceptionMessage("Incompatible types 'MIXED' and 'SCALAR[INTEGER]'");
         $this->unify(
             $this->createSequenceArray($this->createMixed()),
             $this->createSequenceArray($this->createInteger())

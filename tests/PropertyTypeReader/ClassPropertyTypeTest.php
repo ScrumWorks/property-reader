@@ -8,7 +8,7 @@ use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\PropertyTypeReader;
 use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\ClassPropertyTypeTestClass;
 
-final class ClassPropertyTypeTest extends AbstractPropertyTest
+final class ClassPropertyTypeTest extends AbstractPropertyTestCase
 {
     protected function createReflectionClass(): \ReflectionClass
     {

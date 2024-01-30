@@ -7,7 +7,7 @@ namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\GeneralPropertyTestClass;
 
-final class GeneralPropertyTest extends AbstractPropertyTest
+final class GeneralPropertyTest extends AbstractPropertyTestCase
 {
     protected function createReflectionClass(): \ReflectionClass
     {
@@ -32,7 +32,7 @@ final class GeneralPropertyTest extends AbstractPropertyTest
     {
         $property = $this->reflection->getProperty('withBraces');
         $this->expectException(LogicException::class);
-        $this->expectErrorMessage('Braces are not support in type');
+        $this->expectExceptionMessage('Braces are not support in type');
         $this->readFromPhpDoc($property);
     }
 }

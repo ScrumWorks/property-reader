@@ -16,7 +16,7 @@ class ScalarVariableTypeTest extends TestCase
     public function testBadParameterType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Unknown 'some-not-exists-constant' scalar type given");
+        $this->expectExceptionMessage("Unknown 'some-not-exists-constant' scalar type given");
         new ScalarVariableType('some-not-exists-constant', false);
     }
 

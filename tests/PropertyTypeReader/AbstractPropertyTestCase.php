@@ -10,7 +10,7 @@ use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 use ScrumWorks\PropertyReader\VariableTypeUnifyServiceInterface;
 use PHPUnit\Framework\TestCase;
 
-abstract class AbstractPropertyTest extends TestCase
+abstract class AbstractPropertyTestCase extends TestCase
 {
     use VariableTypeCreatingTrait;
 

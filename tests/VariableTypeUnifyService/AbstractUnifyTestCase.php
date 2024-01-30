@@ -8,7 +8,7 @@ use ScrumWorks\PropertyReader\Tests\VariableTypeCreatingTrait;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 use ScrumWorks\PropertyReader\VariableTypeUnifyService;
 
-abstract class AbstractUnifyTest extends TestCase
+abstract class AbstractUnifyTestCase extends TestCase
 {
     use VariableTypeCreatingTrait;
 

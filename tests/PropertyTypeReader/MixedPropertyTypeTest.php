@@ -7,7 +7,7 @@ namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\MixedPropertyTypeTestClass;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
 
-final class MixedPropertyTypeTest extends AbstractPropertyTest
+final class MixedPropertyTypeTest extends AbstractPropertyTestCase
 {
     protected function createReflectionClass(): \ReflectionClass
     {

@@ -7,7 +7,7 @@ namespace ScrumWorks\PropertyReader\Tests\PropertyTypeReader;
 use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\UnionPropertyTypeTestClass;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 
-final class UnionPropertyTypeTest extends AbstractPropertyTest
+final class UnionPropertyTypeTest extends AbstractPropertyTestCase
 {
     protected function createReflectionClass(): \ReflectionClass
     {

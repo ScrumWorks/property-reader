@@ -8,7 +8,7 @@ use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\Tests\PropertyTypeReader\Fixture\NullablePropertyTestClass;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 
-final class NullablePropertyTest extends AbstractPropertyTest
+final class NullablePropertyTest extends AbstractPropertyTestCase
 {
     protected function createReflectionClass(): \ReflectionClass
     {
@@ -66,7 +66,7 @@ final class NullablePropertyTest extends AbstractPropertyTest
         // property with only nullable definition
         $property = $this->reflection->getProperty('unresolvableNullable');
         $this->expectException(LogicException::class);
-        $this->expectErrorMessage("Unresolvable definition 'null'");
+        $this->expectExceptionMessage("Unresolvable definition 'null'");
         $this->readFromPhpDoc($property);
     }
 }

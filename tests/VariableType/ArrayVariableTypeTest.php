@@ -32,14 +32,14 @@ class ArrayVariableTypeTest extends TestCase
     public function testInvalidNonScalarKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Keys can be only scalar types, 'MIXED' given");
+        $this->expectExceptionMessage("Keys can be only scalar types, 'MIXED' given");
         new ArrayVariableType(new MixedVariableType(), new MixedVariableType(), true);
     }
 
     public function testInvalidScalarKeyWithBadType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Key type can be only string or integer, 'BOOLEAN' given");
+        $this->expectExceptionMessage("Key type can be only string or integer, 'BOOLEAN' given");
         new ArrayVariableType(
             new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, false),
             new MixedVariableType(),
@@ -50,7 +50,7 @@ class ArrayVariableTypeTest extends TestCase
     public function testInvalidNullableScalarKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Key can't be nullable");
+        $this->expectExceptionMessage("Key can't be nullable");
         new ArrayVariableType(
             new ScalarVariableType(ScalarVariableType::TYPE_STRING, true),
             new MixedVariableType(),
@@ -61,7 +61,7 @@ class ArrayVariableTypeTest extends TestCase
     public function testInvalidNullableUnionKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Key can't be nullable");
+        $this->expectExceptionMessage("Key can't be nullable");
         new ArrayVariableType(
             new UnionVariableType([
                 new ScalarVariableType(ScalarVariableType::TYPE_STRING, false),
@@ -75,7 +75,7 @@ class ArrayVariableTypeTest extends TestCase
     public function testInvalidUnionKeyWithNonScalarTypes(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("Keys can be only scalar types, 'MIXED' given");
+        $this->expectExceptionMessage("Keys can be only scalar types, 'MIXED' given");
         new ArrayVariableType(
             new UnionVariableType([
                 new ScalarVariableType(ScalarVariableType::TYPE_STRING, false),
