@@ -76,7 +76,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         }
 
         $type = \preg_replace('/^\?/', self::NULL_TYPE . '|', $type);
-        $types = \array_map('trim', \preg_split('/\||<[^>]+>(*SKIP)(*FAIL)/', $type));
+        $types = \array_map('trim', \preg_split('/\||<[^>]+>(*SKIP)(*FAIL)/', (string) $type));
         if (\in_array(self::NULL_TYPE, $types, true)) {
             $nullable = true;
             $types = \array_values(\array_filter($types, static fn (string $type): bool => $type !== self::NULL_TYPE));
