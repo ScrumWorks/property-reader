@@ -44,7 +44,11 @@ final class ScalarVariableType extends AbstractVariableType
 
     protected function validate(): void
     {
-        if (! \in_array($this->type, [self::TYPE_INTEGER, self::TYPE_FLOAT, self::TYPE_BOOLEAN, self::TYPE_STRING])) {
+        if (! \in_array(
+            $this->type,
+            [self::TYPE_INTEGER, self::TYPE_FLOAT, self::TYPE_BOOLEAN, self::TYPE_STRING],
+            true
+        )) {
             throw new InvalidArgumentException("Unknown '{$this->type}' scalar type given");
         }
     }

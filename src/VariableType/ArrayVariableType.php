@@ -78,7 +78,11 @@ final class ArrayVariableType extends AbstractVariableType
                     $key->getTypeName()
                 ));
             }
-            if (! \in_array($key->getType(), [ScalarVariableType::TYPE_STRING, ScalarVariableType::TYPE_INTEGER])) {
+            if (! \in_array(
+                $key->getType(),
+                [ScalarVariableType::TYPE_STRING, ScalarVariableType::TYPE_INTEGER],
+                true
+            )) {
                 throw new InvalidArgumentException(\sprintf(
                     "Key type can be only string or integer, '%s' given",
                     $key->getType()
