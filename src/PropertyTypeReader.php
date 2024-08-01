@@ -136,7 +136,7 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
             'int', 'integer' => new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, $nullable),
             'float' => new ScalarVariableType(ScalarVariableType::TYPE_FLOAT, $nullable),
             'bool', 'boolean' => new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, $nullable),
-            'string' => new ScalarVariableType(ScalarVariableType::TYPE_STRING, $nullable),
+            'string', 'non-empty-string' => new ScalarVariableType(ScalarVariableType::TYPE_STRING, $nullable),
             default => null,
         };
     }
