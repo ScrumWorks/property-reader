@@ -16,6 +16,8 @@ final class ScalarVariableType extends AbstractVariableType
 
     public const TYPE_STRING = 'STRING';
 
+    public const TYPE_NON_EMPTY_STRING = 'NON_EMPTY_STRING';
+
     public function __construct(
         protected string $type,
         bool $nullable
@@ -46,7 +48,7 @@ final class ScalarVariableType extends AbstractVariableType
     {
         if (! \in_array(
             $this->type,
-            [self::TYPE_INTEGER, self::TYPE_FLOAT, self::TYPE_BOOLEAN, self::TYPE_STRING],
+            [self::TYPE_INTEGER, self::TYPE_FLOAT, self::TYPE_BOOLEAN, self::TYPE_STRING, self::TYPE_NON_EMPTY_STRING],
             true
         )) {
             throw new InvalidArgumentException("Unknown '{$this->type}' scalar type given");
