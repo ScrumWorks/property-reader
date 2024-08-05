@@ -14,7 +14,10 @@ use ScrumWorks\PropertyReader\Exception\LogicException;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
-use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\BooleanVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\FloatVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\IntegerVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\StringVariableType;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
@@ -133,10 +136,11 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
     private function tryCreateScalar(string $type, bool $nullable): ?VariableTypeInterface
     {
         return match ($type) {
-            'int', 'integer' => new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, $nullable),
-            'float' => new ScalarVariableType(ScalarVariableType::TYPE_FLOAT, $nullable),
-            'bool', 'boolean' => new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, $nullable),
-            'string' => new ScalarVariableType(ScalarVariableType::TYPE_STRING, $nullable),
+            'int', 'integer' => new IntegerVariableType($nullable),
+            'float' => new FloatVariableType($nullable),
+            'bool', 'boolean' => new BooleanVariableType($nullable),
+            'string' => new StringVariableType($nullable, canBeEmpty: true),
+            'non-empty-string' => new StringVariableType($nullable, canBeEmpty: false),
             default => null,
         };
     }

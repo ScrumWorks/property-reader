@@ -13,13 +13,6 @@ class ScalarVariableTypeTest extends TestCase
 {
     use VariableTypeCreatingTrait;
 
-    public function testBadParameterType(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Unknown 'some-not-exists-constant' scalar type given");
-        new ScalarVariableType('some-not-exists-constant', false);
-    }
-
     public function testEquals(): void
     {
         $this->assertTrue($this->variableTypeEquals($this->createInteger(true), $this->createInteger(true)));

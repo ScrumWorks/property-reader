@@ -8,6 +8,10 @@ use ScrumWorks\PropertyReader\VariableType\AbstractVariableType;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\BooleanVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\FloatVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\IntegerVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\StringVariableType;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
@@ -20,22 +24,22 @@ trait VariableTypeCreatingTrait
 
     protected function createInteger(bool $nullable = false): ScalarVariableType
     {
-        return new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, $nullable);
+        return new IntegerVariableType($nullable);
     }
 
     protected function createFloat(bool $nullable = false): ScalarVariableType
     {
-        return new ScalarVariableType(ScalarVariableType::TYPE_FLOAT, $nullable);
+        return new FloatVariableType($nullable);
     }
 
     protected function createBoolean(bool $nullable = false): ScalarVariableType
     {
-        return new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, $nullable);
+        return new BooleanVariableType($nullable);
     }
 
-    protected function createString(bool $nullable = false): ScalarVariableType
+    protected function createString(bool $nullable = false, bool $canBeEmpty = true): ScalarVariableType
     {
-        return new ScalarVariableType(ScalarVariableType::TYPE_STRING, $nullable);
+        return new StringVariableType($nullable, $canBeEmpty);
     }
 
     protected function createGenericArray(bool $nullable = false): ArrayVariableType

@@ -7,7 +7,10 @@ namespace ScrumWorks\PropertyReader;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
-use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\BooleanVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\FloatVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\IntegerVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\StringVariableType;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
 
@@ -20,13 +23,14 @@ final class VariableTypeWriter
                 return '';
             }
             return 'mixed';
-        } elseif ($variableType instanceof ScalarVariableType) {
-            switch ($variableType->getType()) {
-                case ScalarVariableType::TYPE_INTEGER: return ($variableType->isNullable() ? '?' : '') . 'int';
-                case ScalarVariableType::TYPE_FLOAT: return ($variableType->isNullable() ? '?' : '') . 'float';
-                case ScalarVariableType::TYPE_BOOLEAN: return ($variableType->isNullable() ? '?' : '') . 'bool';
-                case ScalarVariableType::TYPE_STRING: return ($variableType->isNullable() ? '?' : '') . 'string';
-            }
+        } elseif ($variableType instanceof IntegerVariableType) {
+            return ($variableType->isNullable() ? '?' : '') . 'int';
+        } elseif ($variableType instanceof FloatVariableType) {
+            return ($variableType->isNullable() ? '?' : '') . 'float';
+        } elseif ($variableType instanceof BooleanVariableType) {
+            return ($variableType->isNullable() ? '?' : '') . 'bool';
+        } elseif ($variableType instanceof StringVariableType) {
+            return ($variableType->isNullable() ? '?' : '') . 'string';
         } elseif ($variableType instanceof ArrayVariableType) {
             if ($phpCompatible) {
                 return 'array';

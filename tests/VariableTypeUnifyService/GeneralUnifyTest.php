@@ -36,7 +36,7 @@ class GeneralUnifyTest extends AbstractUnifyTestCase
     public function testIncompatibleTypes(): void
     {
         $this->expectException(IncompatibleVariableTypesException::class);
-        $this->expectExceptionMessage("Incompatible types 'MIXED' and 'SCALAR[INTEGER]'");
+        $this->expectExceptionMessage("Incompatible types 'MIXED' and 'INTEGER'");
         $this->unify(
             $this->createMixed(),
             $this->createInteger(false)
@@ -46,7 +46,7 @@ class GeneralUnifyTest extends AbstractUnifyTestCase
     public function testIncompatibleNullableTypes(): void
     {
         $this->expectException(IncompatibleVariableTypesException::class);
-        $this->expectExceptionMessage("Incompatible nullable settings for 'SCALAR[INTEGER]' and 'SCALAR[INTEGER]'");
+        $this->expectExceptionMessage("Incompatible nullable settings for 'INTEGER' and 'INTEGER'");
         $this->assertEquals(
             $this->createInteger(true),
             $this->unify(
