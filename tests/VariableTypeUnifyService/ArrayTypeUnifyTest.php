@@ -60,7 +60,7 @@ class ArrayTypeUnifyTest extends AbstractUnifyTestCase
     {
         // mixed[] + int[] causes exception
         $this->expectException(IncompatibleVariableTypesException::class);
-        $this->expectExceptionMessage("Incompatible types 'MIXED' and 'SCALAR[INTEGER]'");
+        $this->expectExceptionMessage("Incompatible types 'MIXED' and 'INTEGER'");
         $this->unify(
             $this->createSequenceArray($this->createMixed()),
             $this->createSequenceArray($this->createInteger())

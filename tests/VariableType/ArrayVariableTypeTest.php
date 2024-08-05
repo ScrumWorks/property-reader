@@ -20,8 +20,8 @@ class ArrayVariableTypeTest extends TestCase
     {
         $arrayVariableType = new ArrayVariableType(
             new UnionVariableType([
-                new ScalarVariableType(ScalarVariableType::TYPE_STRING, false),
-                new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, false),
+                $this->createString(),
+                $this->createInteger(),
             ], false),
             new MixedVariableType(),
             true
@@ -32,7 +32,7 @@ class ArrayVariableTypeTest extends TestCase
     public function testInvalidNonScalarKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Keys can be only scalar types, 'MIXED' given");
+        $this->expectExceptionMessage("Key type can be only string or integer, 'MIXED' given");
         new ArrayVariableType(new MixedVariableType(), new MixedVariableType(), true);
     }
 
@@ -41,7 +41,7 @@ class ArrayVariableTypeTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Key type can be only string or integer, 'BOOLEAN' given");
         new ArrayVariableType(
-            new ScalarVariableType(ScalarVariableType::TYPE_BOOLEAN, false),
+            $this->createBoolean(),
             new MixedVariableType(),
             true
         );
@@ -52,7 +52,7 @@ class ArrayVariableTypeTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Key can't be nullable");
         new ArrayVariableType(
-            new ScalarVariableType(ScalarVariableType::TYPE_STRING, true),
+            $this->createString(nullable: true),
             new MixedVariableType(),
             true
         );
@@ -64,8 +64,8 @@ class ArrayVariableTypeTest extends TestCase
         $this->expectExceptionMessage("Key can't be nullable");
         new ArrayVariableType(
             new UnionVariableType([
-                new ScalarVariableType(ScalarVariableType::TYPE_STRING, false),
-                new ScalarVariableType(ScalarVariableType::TYPE_INTEGER, false),
+                $this->createString(),
+                $this->createInteger(),
             ], true),
             new MixedVariableType(),
             true
@@ -75,10 +75,10 @@ class ArrayVariableTypeTest extends TestCase
     public function testInvalidUnionKeyWithNonScalarTypes(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Keys can be only scalar types, 'MIXED' given");
+        $this->expectExceptionMessage("Key type can be only string or integer, 'MIXED' given");
         new ArrayVariableType(
             new UnionVariableType([
-                new ScalarVariableType(ScalarVariableType::TYPE_STRING, false),
+                $this->createString(),
                 new MixedVariableType(),
             ], false),
             new MixedVariableType(),

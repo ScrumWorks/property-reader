@@ -74,11 +74,11 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
 
     private function unifyScalar(ScalarVariableType $a, ScalarVariableType $b): VariableTypeInterface
     {
-        if ($a->getType() !== $b->getType()) {
+        if ($a::class !== $b::class) {
             throw new IncompatibleVariableTypesException(\sprintf(
                 "Can't merge %s and %s scalar types",
-                $a->getType(),
-                $b->getType()
+                $a->getTypeName(),
+                $b->getTypeName(),
             ));
         }
 

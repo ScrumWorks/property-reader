@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ScrumWorks\PropertyReader\VariableType;
 
 use ScrumWorks\PropertyReader\Exception\InvalidArgumentException;
+use ScrumWorks\PropertyReader\VariableType\Scalar\IntegerVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\StringVariableType;
 
 final class ArrayVariableType extends AbstractVariableType
 {
@@ -72,16 +74,10 @@ final class ArrayVariableType extends AbstractVariableType
             if ($key === null) {
                 continue;
             }
-            if (! ($key instanceof ScalarVariableType)) {
-                throw new InvalidArgumentException(\sprintf(
-                    "Keys can be only scalar types, '%s' given",
-                    $key->getTypeName()
-                ));
-            }
-            if (! \in_array($key->getType(), [ScalarVariableType::TYPE_STRING, ScalarVariableType::TYPE_INTEGER])) {
+            if (! $key instanceof IntegerVariableType && ! $key instanceof StringVariableType) {
                 throw new InvalidArgumentException(\sprintf(
                     "Key type can be only string or integer, '%s' given",
-                    $key->getType()
+                    $key->getTypeName(),
                 ));
             }
             if ($key->nullable) {
