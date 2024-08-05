@@ -11,6 +11,7 @@ use ScrumWorks\PropertyReader\VariableType\AbstractVariableType;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\StringVariableType;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
@@ -80,6 +81,9 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
                 $a->getTypeName(),
                 $b->getTypeName(),
             ));
+        }
+        if ($a instanceof StringVariableType && $b instanceof StringVariableType && $a->canBeEmpty() && ! $b->canBeEmpty()) {
+            return clone $b;
         }
 
         return clone $a;
