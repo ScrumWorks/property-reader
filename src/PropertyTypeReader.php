@@ -6,6 +6,7 @@ namespace ScrumWorks\PropertyReader;
 
 use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
+use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionProperty;
 use ReflectionUnionType;
@@ -63,11 +64,19 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 
     public function readVariableTypeFromPhpDoc(ReflectionProperty $property): ?VariableTypeInterface
     {
-        $type = $this->parseAnnotation($property, 'var');
-        if (! $type) {
-            return null;
+        if ($property->isPromoted()) {
+            $construct = $property->getDeclaringClass()
+                ->getConstructor();
+            if ($construct === null) {
+                return null;
+            }
+
+            $type = $this->parseAnnotation($construct, 'param', '$' . $property->getName());
+        } else {
+            $type = $this->parseAnnotation($property, 'var');
         }
-        return $this->parseType($type, $property);
+
+        return $type ? $this->parseType($type, $property) : null;
     }
 
     private function parseType(string $type, ReflectionProperty $property): VariableTypeInterface
@@ -180,12 +189,15 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
         return Reflection::expandClassName($str, Reflection::getPropertyDeclaringClass($property));
     }
 
-    private function parseAnnotation(ReflectionProperty $ref, string $name): ?string
-    {
+    private function parseAnnotation(
+        ReflectionProperty|ReflectionMethod $ref,
+        string $name,
+        string $paramName = '',
+    ): ?string {
         if (! Reflection::areCommentsAvailable()) {
             throw new InvalidStateException('You have to enable phpDoc comments in opcode cache.');
         }
-        $re = '#[\s*]@' . \preg_quote($name, '#') . '(?=\s|$)(?:[ \t]+([^@\s].*))?#';
+        $re = '#[\s*]@' . \preg_quote($name, '#') . '(?=\s|$)(?:[ \t]+([^@\s].*))?\s*' . \preg_quote($paramName) . '#';
         if ($ref->getDocComment() && \preg_match($re, \trim($ref->getDocComment(), '/*'), $m)) {
             return $m[1] !== '' && $m[1] !== '0' ? \trim($m[1]) : '';
         }
