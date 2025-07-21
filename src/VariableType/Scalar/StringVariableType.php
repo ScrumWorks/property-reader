@@ -9,21 +9,14 @@ use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 
 final class StringVariableType extends AbstractVariableType implements ScalarVariableType
 {
-    public function __construct(
-        bool $nullable,
-        private readonly bool $canBeEmpty,
-    ) {
-        parent::__construct($nullable);
+    public function __construct(bool $nullable, ?string $typeExtension = null)
+    {
+        parent::__construct($nullable, $typeExtension);
     }
 
     public function __toString(): string
     {
         return 'STRING';
-    }
-
-    public function canBeEmpty(): bool
-    {
-        return $this->canBeEmpty;
     }
 
     protected function validate(): void

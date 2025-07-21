@@ -11,7 +11,7 @@ use ScrumWorks\PropertyReader\VariableType\AbstractVariableType;
 use ScrumWorks\PropertyReader\VariableType\ArrayVariableType;
 use ScrumWorks\PropertyReader\VariableType\ClassVariableType;
 use ScrumWorks\PropertyReader\VariableType\MixedVariableType;
-use ScrumWorks\PropertyReader\VariableType\Scalar\StringVariableType;
+use ScrumWorks\PropertyReader\VariableType\Scalar\IntegerVariableType;
 use ScrumWorks\PropertyReader\VariableType\ScalarVariableType;
 use ScrumWorks\PropertyReader\VariableType\UnionVariableType;
 use ScrumWorks\PropertyReader\VariableType\VariableTypeInterface;
@@ -45,6 +45,16 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
                 "Incompatible nullable settings for '%s' and '%s'",
                 $a->getTypeName(),
                 $b->getTypeName()
+            ));
+        }
+
+        if ($a->getTypeExtension() !== $b->getTypeExtension() && $a->getTypeExtension() && $b->getTypeExtension()) {
+            throw new IncompatibleVariableTypesException(\sprintf(
+                "Incompatible type extension for '%s' and '%s': '%s' != '%s'",
+                $a->getTypeName(),
+                $b->getTypeName(),
+                $a->getTypeExtension(),
+                $b->getTypeExtension(),
             ));
         }
 
@@ -82,11 +92,17 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
                 $b->getTypeName(),
             ));
         }
-        if ($a instanceof StringVariableType && $b instanceof StringVariableType && $a->canBeEmpty() && ! $b->canBeEmpty()) {
-            return clone $b;
+
+        if ($a instanceof IntegerVariableType && $b instanceof IntegerVariableType) {
+            return new IntegerVariableType(
+                $a->isNullable(),
+                $a->getTypeExtension() ?? $b->getTypeExtension(),
+                $a->getMinValue() ?? $b->getMinValue(),
+                $a->getMaxValue() ?? $b->getMaxValue(),
+            );
         }
 
-        return clone $a;
+        return clone ($b->getTypeExtension() ? $b : $a);
     }
 
     private function unifyArray(ArrayVariableType $a, ArrayVariableType $b): VariableTypeInterface
@@ -106,7 +122,8 @@ final class VariableTypeUnifyService implements VariableTypeUnifyServiceInterfac
         return new ArrayVariableType(
             $a->getKeyType() !== null ? clone $a->getKeyType() : null,
             $this->unify($a->getItemType(), $b->getItemType()),
-            $a->isNullable()
+            $a->isNullable(),
+            $a->getTypeExtension() ?? $b->getTypeExtension(),
         );
     }
 

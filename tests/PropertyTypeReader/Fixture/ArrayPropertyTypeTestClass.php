@@ -29,4 +29,10 @@ final class ArrayPropertyTypeTestClass
 
     /** @var array<int|string, ?int[][]> */
     public array $complicatedArray;
+
+    /** @var list<string> */
+    public array $list;
+
+    /** @var non-empty-array<string, non-empty-list<int>> */
+    public array $nonEmpty;
 }

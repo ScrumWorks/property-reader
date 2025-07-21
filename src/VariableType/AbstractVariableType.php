@@ -10,7 +10,8 @@ use Stringable;
 abstract class AbstractVariableType implements VariableTypeInterface, Stringable
 {
     public function __construct(
-        protected bool $nullable
+        protected bool $nullable,
+        protected ?string $typeExtension = null,
     ) {
         $this->validate();
     }
@@ -25,6 +26,11 @@ abstract class AbstractVariableType implements VariableTypeInterface, Stringable
     public function getTypeName(): string
     {
         return $this->__toString();
+    }
+
+    public function getTypeExtension(): ?string
+    {
+        return $this->typeExtension;
     }
 
     public function equals(VariableTypeInterface $object): bool

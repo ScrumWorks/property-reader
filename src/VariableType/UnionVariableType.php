@@ -13,9 +13,9 @@ final class UnionVariableType extends AbstractVariableType
      */
     public function __construct(
         protected array $types,
-        bool $nullable
+        bool $nullable,
     ) {
-        parent::__construct($nullable);
+        parent::__construct($nullable, null);
     }
 
     public function __toString(): string

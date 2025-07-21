@@ -111,5 +111,28 @@ final class ArrayPropertyTypeTest extends AbstractPropertyTestCase
             )
         );
     }
+
+    public function testList(): void
+    {
+        $this->assertPhpDocVariableType(
+            'list',
+            $this->createSequenceArray(
+                $this->createString(),
+                typeExtension: 'list',
+            ),
+        );
+    }
+
+    public function testNonEmpty(): void
+    {
+        $this->assertPhpDocVariableType(
+            'nonEmpty',
+            $this->createHashmap(
+                $this->createString(),
+                $this->createSequenceArray($this->createInteger(), typeExtension: 'non-empty-list'),
+                typeExtension: 'non-empty-array',
+            ),
+        );
+    }
 }
 

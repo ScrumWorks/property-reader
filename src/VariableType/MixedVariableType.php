@@ -8,7 +8,7 @@ final class MixedVariableType extends AbstractVariableType
 {
     public function __construct()
     {
-        parent::__construct(true);
+        parent::__construct(true, null);
     }
 
     public function __toString(): string

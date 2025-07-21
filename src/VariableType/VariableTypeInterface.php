@@ -10,5 +10,7 @@ interface VariableTypeInterface
 
     public function getTypeName(): string;
 
+    public function getTypeExtension(): ?string;
+
     public function equals(self $object): bool;
 }

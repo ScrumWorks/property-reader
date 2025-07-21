@@ -27,6 +27,26 @@ final class ScalarPropertyTypeTest extends AbstractPropertyTestCase
             'integerAlternative',
             $this->createInteger(false)
         );
+        $this->assertPhpDocVariableType(
+            'positiveInteger',
+            $this->createInteger(typeExtension: 'positive-int', min: 1),
+        );
+        $this->assertPhpDocVariableType(
+            'negativeInteger',
+            $this->createInteger(typeExtension: 'negative-int', max: -1),
+        );
+        $this->assertPhpDocVariableType(
+            'nonPositiveInteger',
+            $this->createInteger(typeExtension: 'non-positive-int', max: 0),
+        );
+        $this->assertPhpDocVariableType(
+            'nonNegativeInteger',
+            $this->createInteger(typeExtension: 'non-negative-int', min: 0),
+        );
+        $this->assertPhpDocVariableType(
+            'rangeInteger',
+            $this->createInteger(min: -5, max: 20),
+        );
     }
 
     public function testFloats(): void
