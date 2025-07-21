@@ -22,9 +22,13 @@ trait VariableTypeCreatingTrait
         return new MixedVariableType();
     }
 
-    protected function createInteger(bool $nullable = false): ScalarVariableType
-    {
-        return new IntegerVariableType($nullable);
+    protected function createInteger(
+        bool $nullable = false,
+        ?string $typeExtension = null,
+        ?int $min = null,
+        ?int $max = null,
+    ): ScalarVariableType {
+        return new IntegerVariableType($nullable, $typeExtension, $min, $max);
     }
 
     protected function createFloat(bool $nullable = false): ScalarVariableType
@@ -37,9 +41,9 @@ trait VariableTypeCreatingTrait
         return new BooleanVariableType($nullable);
     }
 
-    protected function createString(bool $nullable = false, bool $canBeEmpty = true): ScalarVariableType
+    protected function createString(bool $nullable = false): ScalarVariableType
     {
-        return new StringVariableType($nullable, $canBeEmpty);
+        return new StringVariableType($nullable);
     }
 
     protected function createGenericArray(bool $nullable = false): ArrayVariableType
@@ -47,17 +51,21 @@ trait VariableTypeCreatingTrait
         return new ArrayVariableType(null, null, $nullable);
     }
 
-    protected function createSequenceArray(?VariableTypeInterface $type, bool $nullable = false): ArrayVariableType
-    {
-        return new ArrayVariableType(null, $type, $nullable);
+    protected function createSequenceArray(
+        ?VariableTypeInterface $type,
+        bool $nullable = false,
+        ?string $typeExtension = null,
+    ): ArrayVariableType {
+        return new ArrayVariableType(null, $type, $nullable, $typeExtension);
     }
 
     protected function createHashmap(
         VariableTypeInterface $key,
         ?VariableTypeInterface $type,
-        bool $nullable = false
+        bool $nullable = false,
+        ?string $typeExtension = null,
     ): ArrayVariableType {
-        return new ArrayVariableType($key, $type, $nullable);
+        return new ArrayVariableType($key, $type, $nullable, $typeExtension);
     }
 
     protected function createClass(string $className, bool $nullable = false): ClassVariableType

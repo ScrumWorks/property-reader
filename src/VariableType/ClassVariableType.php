@@ -10,9 +10,10 @@ final class ClassVariableType extends AbstractVariableType
 {
     public function __construct(
         protected string $class,
-        bool $nullable
+        bool $nullable,
+        ?string $typeExtension = null,
     ) {
-        parent::__construct($nullable);
+        parent::__construct($nullable, $typeExtension);
     }
 
     public function __toString(): string

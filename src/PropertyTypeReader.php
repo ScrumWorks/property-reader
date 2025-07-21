@@ -144,12 +144,33 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
 
     private function tryCreateScalar(string $type, bool $nullable): ?VariableTypeInterface
     {
+        [$templateType, $min, $max] = $this->tryParseTemplates($type);
+        if (
+            $templateType === 'int'
+            && $min && $max
+            && \preg_match('~^-?\d+|min$~', $min)
+            && \preg_match('~^-?\d+|max$~', $max)
+        ) {
+            return new IntegerVariableType(
+                $nullable,
+                null,
+                $min === 'min' ? null : (int) $min,
+                $max === 'max' ? null : (int) $max,
+            );
+        }
+
         return match ($type) {
-            'int', 'integer' => new IntegerVariableType($nullable),
-            'float' => new FloatVariableType($nullable),
-            'bool', 'boolean' => new BooleanVariableType($nullable),
-            'string' => new StringVariableType($nullable, canBeEmpty: true),
-            'non-empty-string' => new StringVariableType($nullable, canBeEmpty: false),
+            'int', 'integer' => new IntegerVariableType($nullable, null),
+            'positive-int' => new IntegerVariableType($nullable, $type, minValue: 1),
+            'negative-int' => new IntegerVariableType($nullable, $type, maxValue: -1),
+            'non-positive-int' => new IntegerVariableType($nullable, $type, maxValue: 0),
+            'non-negative-int' => new IntegerVariableType($nullable, $type, minValue: 0),
+            'non-zero-int' => new IntegerVariableType($nullable, $type),
+            'float' => new FloatVariableType($nullable, null),
+            'bool', 'boolean' => new BooleanVariableType($nullable, null),
+            'string' => new StringVariableType($nullable, null),
+            'non-empty-string', 'numeric-string', 'callable-string',
+            'non-falsy-string', 'lowercase-string', 'class-string' => new StringVariableType($nullable, $type),
             default => null,
         };
     }
@@ -157,25 +178,34 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
     private function tryCreateArray(string $type, bool $nullable, ReflectionProperty $property): ?VariableTypeInterface
     {
         if ($type === 'array') {
-            return new ArrayVariableType(null, null, $nullable);
+            return new ArrayVariableType(null, null, $nullable, null);
         }
         if (\str_ends_with($type, '[]')) {
             $itemType = $this->parseType(\substr($type, 0, -2), $property);
-            return new ArrayVariableType(null, $itemType, $nullable);
-        }
-        if ($match = Strings::match($type, '~^array<((?P<key>[^,]+)\s*,\s*)?(?P<type>.+)>$~')) {
-            $itemType = $this->parseType($match['type'], $property);
-            $keyType = $match['key'] ? $this->parseType($match['key'], $property) : null;
-            return new ArrayVariableType($keyType, $itemType, $nullable);
+            return new ArrayVariableType(null, $itemType, $nullable, null);
         }
 
-        return null;
+        [$templateType, $key, $value] = $this->tryParseTemplates($type);
+        $typeExtension = $templateType === 'array' ? null : $templateType;
+
+        return match ($templateType) {
+            'non-empty-list', 'list' => $key === null && $value !== null
+                ? new ArrayVariableType(null, $this->parseType($value, $property), $nullable, $typeExtension)
+                : null,
+            'non-empty-array', 'array' => new ArrayVariableType(
+                $key ? $this->parseType($key, $property) : null,
+                $value ? $this->parseType($value, $property) : null,
+                $nullable,
+                $typeExtension,
+            ),
+            default => null,
+        };
     }
 
     private function tryCreateObject(string $type, bool $nullable): ?VariableTypeInterface
     {
         if (\class_exists($type) || \interface_exists($type)) {
-            return new ClassVariableType($type, $nullable);
+            return new ClassVariableType($type, $nullable, null);
         }
 
         return null;
@@ -187,6 +217,23 @@ final class PropertyTypeReader implements PropertyTypeReaderInterface
             return \ltrim($str, '\\');
         }
         return Reflection::expandClassName($str, Reflection::getPropertyDeclaringClass($property));
+    }
+
+    /**
+     * @return array{0: string, 1: string|null, 2: string|null}
+     */
+    private function tryParseTemplates(string $type): array
+    {
+        $match = Strings::match($type, '~^(?P<type>[^<]+)\s*<((?P<t1>[^,]+)\s*,\s*)?(?P<t2>.+)>$~');
+        if ($match) {
+            return [
+                $match['type'],
+                $match['t1'] === '' ? null : $match['t1'],
+                $match['t2'] === '' ? null : $match['t2'],
+            ];
+        }
+
+        return [$type, null, null];
     }
 
     private function parseAnnotation(

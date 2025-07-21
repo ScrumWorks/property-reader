@@ -13,9 +13,10 @@ final class ArrayVariableType extends AbstractVariableType
     public function __construct(
         protected ?VariableTypeInterface $keyType,
         protected ?VariableTypeInterface $itemType,
-        bool $nullable
+        bool $nullable,
+        ?string $typeExtension = null,
     ) {
-        parent::__construct($nullable);
+        parent::__construct($nullable, $typeExtension);
     }
 
     public function __toString(): string
